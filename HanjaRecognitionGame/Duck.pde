@@ -3,11 +3,20 @@ class Duck {
   float ypos;
   float xspeed;
   float yspeed;
-  float s1, s2;
+  float s1, s2; //Could we rename these to something like duckW and duckH?
 
   Duck() {
     s1 = 50;
     s2 = 45;
+    xpos = width / 2;
+    ypos = 10;
+    xspeed = 1;
+    yspeed = 1;
+  }
+  
+  Duck(float pW) {
+    s1 = pW;
+    s2 = pW*0.9; // 50*0.9 = 45
     xpos = width / 2;
     ypos = 10;
     xspeed = 1;

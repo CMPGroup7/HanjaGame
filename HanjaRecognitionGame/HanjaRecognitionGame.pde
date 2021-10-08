@@ -1,3 +1,5 @@
+//v1.3 2021-10-08
+
 float toH_ratio;
 float toW_ratio;
 int w, h;
@@ -18,7 +20,10 @@ float toDuckRatio = 1.786;
 RectWalldoor wall;
 Duck duck;
 
-TextHandler tHandle;
+TextHandler tHandle; //Texthandler should break up text into  syllables
+                      //with 한자 and without. All spaces and syllables should be saved, but no parentheses.
+                      // These will only be used to seperate 한자 and non-한자 words + their syllables
+                      // Syllable = 음절 /한마디. 예를 들면 "사장님"라고 쓰면 음절이 세개입니다.
 
 void setup(){
  

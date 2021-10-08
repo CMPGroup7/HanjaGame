@@ -1,5 +1,7 @@
-class RectWalldoor{
+class RectWalldoor{ 
+  // Will take a Texthandler object and make a Rectwalldoor object which can or cannot be opened
 
+boolean door = false; //Usually a wall
 float x = 0;
 float y = 0;
 float dim_W = 10;

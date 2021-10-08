@@ -1,4 +1,7 @@
 class TextHandler {
+  
+  //Divide screen into grid(?)
+  
   int count = 0;  //number of hanja words
   String[] textLine = loadStrings("page1.txt");  //input text with hanja
   String[] represent;  //input text without hanja
@@ -18,7 +21,7 @@ class TextHandler {
           Hanja.add(hanja);
           count++;
         }
-      }
+      } 
     }
 
     for(int i = 0; i<count; i++){

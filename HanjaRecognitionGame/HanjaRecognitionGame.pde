@@ -10,14 +10,16 @@ float wallW = 100;
 float wallH = 100;
 
 int v = 0;
-boolean collided = false;
+//boolean collided = false;
 
 PFont font;
-int fontS = 28;
+int fontS = 28; // 28
 String text;
 float toDuckRatio = 1.786;
 
-RectWalldoor wall;
+ArrayList<Walldoor> wallDoors;
+
+Walldoor wall, door;
 Duck duck;
 
 TextHandler tHandle; //Texthandler should break up text into  syllables
@@ -30,6 +32,7 @@ void setup(){
   size(100,720);
   w = width;
   h = height;
+  
    //Use one of the two
   toW_ratio = 0.70708; //Height:Width
   toH_ratio = 1.4142; //Width:Height
@@ -49,7 +52,12 @@ void setup(){
   background(100);
   
   duck = new Duck(fontS*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
-  wall = new RectWalldoor(x, y, wallW, wallH);
+  wall = new Walldoor(false, x, y, wallW, wallH);
+  door = new Walldoor(true, x, y+200, wallW, wallH); // Duck will not be stopped
+  
+  wallDoors = new ArrayList<Walldoor>();
+  wallDoors.add(wall);
+  wallDoors.add(door);
   
   font = createFont("Batang", fontS); // setup font size for easier loading
   textFont(font); 
@@ -59,19 +67,26 @@ void setup(){
 }
 
 void draw(){
-  background(100);
-  wall.display();
-  duck.display();
- 
   
+  background(100);
+  
+  for(Walldoor wd : wallDoors)
+    wd.display();
+    
+  duck.display();
+   
   textSize(fontS);
   textAlign(LEFT,CENTER);
   
   for(int i = 0; i < tHandle.represent.length; i++){
     text(tHandle.represent[i],x,y+(80*i)); 
   }
-
-  collided = wall.pointColCheck(mouseX, mouseY);
+  for(Walldoor wd : wallDoors){
+    if(duck.collision(wd) && !wd.door){
+      duck.ypos = duck.ypos -1; // bounce back, or glide if on the side. Maybe check which if top side is collided or not
+      duck.xpos = duck.xpos;
+    }
+  }
   
 }
 
@@ -84,8 +99,9 @@ if(wall.pointColCheck(mouseX, mouseY))
 
 void mouseReleased(){
 
-if(wall.pointColCheck(mouseX, mouseY) || !collided)
-  wall.strokeV = wall.v;
+if(wall.pointColCheck(mouseX, mouseY) || !wall.collided)
+ wall.strokeV = wall.v;
+  
 
 }
 

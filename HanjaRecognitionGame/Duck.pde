@@ -4,6 +4,8 @@ class Duck {
   float xspeed;
   float yspeed;
   float s1, s2; //Could we rename these to something like duckW and duckH?
+  float radius;
+  boolean collided = false;
 
   Duck() {
     s1 = 50;
@@ -12,6 +14,7 @@ class Duck {
     ypos = 10;
     xspeed = 1;
     yspeed = 1;
+    radius = s2;
   }
   
   Duck(float pW) {
@@ -21,6 +24,7 @@ class Duck {
     ypos = 10;
     xspeed = 1;
     yspeed = 1;
+    radius = s2;
   }
 
   void display() {
@@ -38,10 +42,17 @@ class Duck {
     ellipse((xpos), (ypos + s1*.2), (s1*.4), (s1*.2));
     line ((xpos - s1*.2), (ypos + s1*.2), (xpos + s1*.2), (ypos + s1*.2));
     pop();
+    
   }
 
   void moveUp() { ypos = ypos -10;}
   void moveDown() {ypos = ypos +10;}
   void moveRight() {xpos = xpos +10;}
   void moveLeft() {xpos = xpos -10;}
+  
+  boolean collision(Walldoor pWd){ // Takes a Walldoor.class and uses it to check its collision, 
+                                  //set Duck object's collided value and then return it.
+    return collided =  pWd.collision(xpos, ypos, radius);
+    
+  }
 }

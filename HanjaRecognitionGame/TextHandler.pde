@@ -1,6 +1,6 @@
 class TextHandler {
   
-  //Divide screen into grid(?)
+  //Divide screen into grid(?) At least special characters like tab-indentations and line breaks "/n" should be saved.
   
   int count = 0;  //number of hanja words
   String[] textLine = loadStrings("page1.txt");  //input text with hanja
@@ -8,6 +8,8 @@ class TextHandler {
   String[] words;  // buffer for parsing hanja and hangul words
   ArrayList<String>Hangul = new ArrayList<>();  // arraylist for storing hangul words
   ArrayList<String>Hanja = new ArrayList<>();   // arraylist for storing hanja words
+  
+  ArrayList<String>[] syllables; //Contained syllables in text containing Hanja. Psuedo-code showing idea: syllables[count]
 
   TextHandler() {
     /*Parse Hangul and Hanja from the string 'data' and save them in each array list(Hangul, Hanja).*/

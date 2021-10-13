@@ -12,9 +12,7 @@ float wallH = 100;
 int v = 0;
 //boolean collided = false;
 
-PFont font;
 int fontS = 28; // 28
-String text;
 float toDuckRatio = 1.786;
 
 ArrayList<Walldoor> wallDoors;
@@ -59,9 +57,6 @@ void setup(){
   wallDoors.add(wall);
   wallDoors.add(door);
   
-  font = createFont("Batang", fontS); // setup font size for easier loading
-  textFont(font); 
-  //text = new String("가나다라마바사 文");
   tHandle = new TextHandler();
   
 }
@@ -75,12 +70,7 @@ void draw(){
     
   duck.display();
    
-  textSize(fontS);
-  textAlign(LEFT,CENTER);
-  
-  for(int i = 0; i < tHandle.represent.length; i++){
-    text(tHandle.represent[i],x,y+(80*i)); 
-  }
+  tHandle.showText();
   for(Walldoor wd : wallDoors){
     if(duck.collision(wd) && !wd.door){
       duck.ypos = duck.ypos -1; // bounce back, or glide if on the side. Maybe check which if top side is collided or not

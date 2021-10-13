@@ -21,78 +21,75 @@ Walldoor wall, door;
 Duck duck;
 
 TextHandler tHandle; //Texthandler should break up text into  syllables
-                      //with 한자 and without. All spaces and syllables should be saved, but no parentheses.
-                      // These will only be used to seperate 한자 and non-한자 words + their syllables
-                      // Syllable = 음절 /한마디. 예를 들면 "사장님"라고 쓰면 음절이 세개입니다.
+//with 한자 and without. All spaces and syllables should be saved, but no parentheses.
+// These will only be used to seperate 한자 and non-한자 words + their syllables
+// Syllable = 음절 /한마디. 예를 들면 "사장님"라고 쓰면 음절이 세개입니다.
 
-void setup(){
- 
-  size(100,720);
+void setup() {
+
+  size(100, 720);
   w = width;
   h = height;
-  
-   //Use one of the two
+
+  //Use one of the two
   toW_ratio = 0.70708; //Height:Width
   toH_ratio = 1.4142; //Width:Height
-  
-  if(displayHeight > 1000) {//Checks display size and resizes if necessary
+
+  if (displayHeight > 1000) {//Checks display size and resizes if necessary
     h = 1000;
     w = int(h*toW_ratio);
-  } else if(displayHeight > 720) {
+  } else if (displayHeight > 720) {
     h = 720;
     w = int(h*toW_ratio);
-  } else if(displayHeight < 720) {
+  } else if (displayHeight < 720) {
     h = 500;
     w = int(h*toW_ratio);
   }
-  
+
   surface.setSize(w, h);
   background(100);
-  
+
   duck = new Duck(fontS*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
   wall = new Walldoor(false, x, y, wallW, wallH);
   door = new Walldoor(true, x, y+200, wallW, wallH); // Duck will not be stopped
-  
+
   wallDoors = new ArrayList<Walldoor>();
   wallDoors.add(wall);
   wallDoors.add(door);
-  
+
   tHandle = new TextHandler();
-  
+
+  win = new PWindow();
 }
 
-void draw(){
-  
+void draw() {
+
   background(100);
-  
-  for(Walldoor wd : wallDoors)
+
+  for (Walldoor wd : wallDoors)
     wd.display();
-    
+
   duck.display();
-   
+
   tHandle.showText();
-  for(Walldoor wd : wallDoors){
-    if(duck.collision(wd) && !wd.door){
+  for (Walldoor wd : wallDoors) {
+    if (duck.collision(wd) && !wd.door) {
       duck.ypos = duck.ypos -1; // bounce back, or glide if on the side. Maybe check which if top side is collided or not
       duck.xpos = duck.xpos;
     }
   }
-  
 }
 
-void mousePressed(){
+void mousePressed() {
 
-if(wall.pointColCheck(mouseX, mouseY))
-  wall.strokeV = 255;
-
+  if (wall.pointColCheck(mouseX, mouseY))
+    wall.strokeV = 255;
 }
 
-void mouseReleased(){
+void mouseReleased() {
 
-if(wall.pointColCheck(mouseX, mouseY) || !wall.collided)
- wall.strokeV = wall.v;
-  
-
+  if (wall.pointColCheck(mouseX, mouseY) || !wall.collided)
+    wall.strokeV = wall.v;
 }
 
 void keyPressed() {

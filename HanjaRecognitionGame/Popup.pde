@@ -1,7 +1,0 @@
-class Popup{
-
-Popup(){
-
-}
-
-}

@@ -147,10 +147,8 @@ class TextHandler {
 
           x = x + (int) random(-10, 10);
           y = y + (int) random(-10, 10);
-          fill(0, 0, 255);
+          fill(255, 255, 0);
           text(text.get(charcount), x, y);
-          
-          
         } else {
 
           text(text.get(charcount), x, y);

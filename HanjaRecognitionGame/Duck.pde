@@ -3,7 +3,7 @@ class Duck {
   float ypos;
   float xspeed;
   float yspeed;
-  float duckW, duckH; 
+  float duckW, duckH;
   float radius;
   boolean collided = false;
 
@@ -62,4 +62,10 @@ class Duck {
     return collided =  pWd.collision(xpos, ypos, radius);
   }
 
+  float getXpos() {
+    return xpos;
+  }
+  float getYpos() {
+    return ypos;
+  }
 }

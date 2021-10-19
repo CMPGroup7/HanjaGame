@@ -1,10 +1,10 @@
 class TextHandler {
 
   //Divide screen into grid(?) At least special characters like tab-indentations and line breaks "/n" should be saved.
-  
+
   //The size of a single grid is textBound*textBound.
   //Automatically, the tab is replaced by a space, and the enter is not performed.
-  
+
   int textBound = 30; //하나의 글자가 30*30을 차지한다.
   int cols, rows;
   String[] textLine;
@@ -36,10 +36,10 @@ class TextHandler {
     textLine = loadStrings("page1.txt"); //page1.txt에서 한줄씩 끊어서 chars 배열에 저장
 
     /*
-    각 line을 순서대로 돌면서 모든 음절을 쪼갠다. 
-    Split all syllables by turning each line in order.
-    */
-    for (int i = 0; i<textLine.length; i++) { 
+    각 line을 순서대로 돌면서 모든 음절을 쪼갠다.
+     Split all syllables by turning each line in order.
+     */
+    for (int i = 0; i<textLine.length; i++) {
       n = textLine[i];
       for (int j = 0; j < n.length(); j++) {
         //println(n.charAt(j));
@@ -48,17 +48,17 @@ class TextHandler {
       wholeLen += n.length();
     }
 
-  /*
-  text 배열에서 한자와 괄호를 제거하고, 한자 단어를 hanjaArr에 저장한다. 
-  hanjaArr에는 해당 index의 글자가 한자어에 포함되는지, 
-  한자어라면 hanjaArr의 몇 번째 index에 해당 한자가 저장되어있는지를 저장한다. 
-  (한자어에 포함되는 음절이면, hanjaArr의 index 저장. 한자어에 포함되지 않는 음절이면 -1 저장)
-  Remove 한자 and parentheses from the 'text' array, and store 한자 words in hanjaArr. 
-  HanjaArr stores whether the letters of the index are included in 한자어, 
-  and if so, in which index of HanjaArr is stored. 
-  (If it is a syllable included in 한자어, store the index of hanjaArr. 
-  If it's a syllable that's not included in 한자어, save -1)
-  */
+    /*
+  text 배열에서 한자와 괄호를 제거하고, 한자 단어를 hanjaArr에 저장한다.
+     hanjaArr에는 해당 index의 글자가 한자어에 포함되는지,
+     한자어라면 hanjaArr의 몇 번째 index에 해당 한자가 저장되어있는지를 저장한다.
+     (한자어에 포함되는 음절이면, hanjaArr의 index 저장. 한자어에 포함되지 않는 음절이면 -1 저장)
+     Remove 한자 and parentheses from the 'text' array, and store 한자 words in hanjaArr.
+     HanjaArr stores whether the letters of the index are included in 한자어,
+     and if so, in which index of HanjaArr is stored.
+     (If it is a syllable included in 한자어, store the index of hanjaArr.
+     If it's a syllable that's not included in 한자어, save -1)
+     */
     for (int i = 0; i<wholeLen; i++) {
       hanjaOrder.add(-1);
     }
@@ -116,8 +116,8 @@ class TextHandler {
 
     /*
     그리드의 column개수와 row개수를 계산한다.
-    Calculate the number of columns and rows of the grid.
-    */
+     Calculate the number of columns and rows of the grid.
+     */
     cols = width/textBound;
     rows = height/textBound;
     f = createFont("굴림", 30);
@@ -127,11 +127,11 @@ class TextHandler {
     int charcount = 0;
     /*
     ent-1의 값만큼 위의 공백을 만들고, spa 값 만큼 좌우 공백을 만들어 텍스트를 보여줄 범위를 지정한다.
-    지정한 범위 내에서 텍스트를 보여준다.
-    Create the above space as much as the value of the ent-1, 
-    and create the left and right spaces as much as the spa value to specify the range to show the text.
-    It shows the text within the specified range.
-    */
+     지정한 범위 내에서 텍스트를 보여준다.
+     Create the above space as much as the value of the ent-1,
+     and create the left and right spaces as much as the spa value to specify the range to show the text.
+     It shows the text within the specified range.
+     */
     for (int j = ent; j<rows; j+=road) {
       for (int i = spa; i<cols-spa; i++) {
         int x = i*textBound;
@@ -142,8 +142,22 @@ class TextHandler {
         textFont(f);
         fill(c);
 
-        text(text.get(charcount), x, y);
+        //text shakes and chages color when duck is around
+        if ((Math.abs(duck.getXpos() - x) <= (duck.duckW/2 + textBound/2) )&&(Math.abs(duck.getYpos() - y) <= (duck.duckH/2 + textBound/2) )) {
+
+          x = x + (int) random(-10, 10);
+          y = y + (int) random(-10, 10);
+          fill(0, 0, 255);
+          text(text.get(charcount), x, y);
+          
+          
+        } else {
+
+          text(text.get(charcount), x, y);
+        }
+
         charcount = charcount+1;
+
         if (charcount >= wholeLen) break;
       }
       if (charcount>=wholeLen) break;

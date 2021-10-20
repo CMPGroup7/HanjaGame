@@ -1,4 +1,4 @@
-//v1.3 2021-10-08
+//v1.4 2021-10-20
 
 float toH_ratio;
 float toW_ratio;
@@ -9,10 +9,6 @@ float y = height/2;
 float wallW = 100;
 float wallH = 100;
 
-int v = 0;
-//boolean collided = false;
-
-int fontS = 28; // 28
 float toDuckRatio = 1.786;
 
 ArrayList<Walldoor> wallDoors;
@@ -49,20 +45,11 @@ void setup() {
 
   surface.setSize(w, h);
   background(100);
-
-  duck = new Duck(fontS*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
-  //wall = new Walldoor(false, x, y, wallW, wallH);
-  //door = new Walldoor(true, x, y+200, wallW, wallH); // Duck will not be stopped
-
-  //wallDoors = new ArrayList<Walldoor>();
-  //wallDoors.add(wall);
-  //wallDoors.add(door);
-
-  tHandle = new TextHandler();
-
-  win = new PWindow();
   
-  level = new Level(width, height); //Adds Walldoor object and combines them with the text from a TextHandler object
+  win = new PWindow();
+  level = new Level(w, h); //Adds Walldoor object and combines them with the text from a TextHandler object
+  duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
+  
 }
 
 void draw() {
@@ -70,35 +57,50 @@ void draw() {
   background(100);
 
   level.display();
-  //for (Walldoor wd : wallDoors)
-   // wd.display();
 
   duck.display();
 
-  //tHandle.showText();
   for (Walldoor wd :level.walldoorObjs) {
-    if (duck.collision(wd) && !wd.door) {
-      duck.ypos = duck.ypos -1; // bounce back, or glide if on the side. Maybe check which if top side is collided or not
-      duck.xpos = duck.xpos;
-    }
+      duck.collision(wd);
   }
+  
 }
 
 void mousePressed() {
 
-  if (wall.pointColCheck(mouseX, mouseY))
-    wall.strokeC = 255;
 }
 
 void mouseReleased() {
 
-  if (wall.pointColCheck(mouseX, mouseY) || !wall.collided)
-    wall.strokeC = wall.c;
 }
 
 void keyPressed() {
-  if (keyCode == UP)duck.moveUp();
-  if (keyCode == DOWN)duck.moveDown();
-  if (keyCode == RIGHT)duck.moveRight();
-  if (keyCode == LEFT) duck.moveLeft();
+  //if(!duck.collided)
+    keyCheck(keyCode, true);
+}
+
+void keyReleased() {
+  keyCheck(keyCode, false);
+}
+
+boolean keyCheck(int k, boolean b){
+  //println(k); //Uncomment to check keyCode
+  switch(k) {
+
+    case UP: 
+      return duck.up = b;
+      
+    case DOWN: 
+      return duck.down = b;
+
+    case RIGHT:
+       return duck.right = b;
+      
+    case LEFT:
+      return duck.left = b;
+    
+    default :
+      return b;
+  }
+  
 }

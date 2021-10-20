@@ -1,29 +1,25 @@
 class Walldoor {
-  // Will take a Texthandler object and make a Rectwalldoor object which can or cannot be opened
+  // Will make a Walldoor object which can or cannot be opened
 
   boolean door = false; //Usually a wall
-  boolean collided = false;
+  boolean collided = false; //Variable for storing and checking collision
   float x = 0;
-  float y = 0;
-  float dim_W = 10;
-  float dim_H = 10;
-  color c = 0;
-  int strokeC = 0;
-  int[] indices = {-1, -1};
+  float y = 0; // x and y positions
+  float dim_W = 10; //Rect width
+  float dim_H = 10; //Rect height
+  color c = 0; //Rect color
+  int strokeC = 0; //Rect border color
+  int[] indices = {-1, -1}; //Start and end index for checking where in TextHandler.text ArrayList it was retrieved from
 
   color fontColor = 255;
   int fontSize;
 
   PShape rectObj;
-  String sText = "Default"; // For testing
+  char[] charArray;
+  String charConvS;
 
-  Walldoor() {
-    rectObj = createShape(RECT, x, y, dim_W, dim_H);
-  }
+  Walldoor(char[] pCh, float pX, float pY, int pFontSize, int ind_st, int ind_end, boolean bHanja) { //Constructor for several syllables
 
-  Walldoor(String pS_text, float pX, float pY, int pFontSize, int ind_st, int ind_end, boolean bHanja) {
-
-    sText = "";
     fontSize = pFontSize;
     x = pX;
     y = pY;
@@ -31,58 +27,49 @@ class Walldoor {
     indices[1]=ind_end;
     dim_W = ind_end - ind_st * fontSize;
     door = bHanja;
-    sText = pS_text;
+    charArray = pCh;
+    for (int i = 0; i<charArray.length; i++)
+      charConvS+= ""+charArray[i];
     rectObj = createShape(RECT, x, y, dim_W, dim_H);
+    
   }
 
-  Walldoor(char c, float pX, float pY, int pFontSize, int index, boolean bHanja) { //Single syllable walldoor
+  Walldoor(char pCh, float pX, float pY, int pFontSize, int index, boolean bHanja) { //Constructor for single syllable Walldoor
 
-    sText = "";
     fontSize = pFontSize;
     x = pX;
     y = pY;
     indices[0]=index;
     dim_W = fontSize;
+    dim_H = fontSize;
     door = bHanja;
-    sText = ""+c;
+    charArray = new char[1];
+    charConvS =""+ pCh;
     rectObj = createShape(RECT, x, y, dim_W, dim_H);
     
-  }
-
-  Walldoor(boolean type, float pX, float pY, float pW, float pH) {
-
-    x = pX;
-    y = pY;
-    dim_W = pW;
-    dim_H = pH;
-    rectObj = createShape(RECT, x, y, dim_W, dim_H);
-    door = type;
-  }
-
-  Walldoor(boolean type, float pX, float pY, float pW, float pH, color pC) {
-
-    x = pX;
-    y = pY;
-    dim_W = pW;
-    dim_H = pH;
-    c = pC;
-    rectObj = createShape(RECT, x, y, dim_W, dim_H);
-    rectObj.setStroke(v);
-    rectObj.setFill(v);
-    door = type;
   }
 
   void display() {
     push();
     rectObj.setStroke(strokeC);
-    rectObj.setFill(v);
+    rectObj.setFill(c);
     shape(rectObj);
     pop();
 
-    push();
-    fill(fontColor);
-    text(sText, x, y);
-    pop();
+   
+    if (collided && door) {
+      push();
+      fill(255, 255, 0);
+      text(charConvS,  x + (int)random(-10, 10),  y + (int)random(-10, 10));
+      pop();
+    } else if (!collided || !door){
+      push();
+      textAlign(LEFT, CENTER);
+      fill(fontColor);
+      text(charConvS, x, y);
+      pop();
+    }
+    
   }
 
   boolean pointColCheck(float pX, float pY) { //Mouse test
@@ -101,7 +88,7 @@ class Walldoor {
     float checkY = pY;
 
     if (pX < x)              checkX = x;
-    else if (pX > x+dim_W)  checkX = x + dim_W;
+    else if (pX > x+dim_W)   checkX = x + dim_W;
 
     if (pY < y)              checkY = y;
     else if (pY > y + dim_H) checkY = y + dim_H;
@@ -112,11 +99,8 @@ class Walldoor {
 
     if (distance <= pRadius)
       return collided = true; // Sets and returns collided value
+      
     return collided = false;
+
   }
-  //Walldoor shakes and chages color when duck is around
-  //  x = x + (int) random(-10, 10);
-  //   y = y + (int) random(-10, 10);
-  //   fill(255, 255, 0);
-  //   text(text.get(charcount), x, y);
 }

@@ -1,5 +1,5 @@
 class PTextHandler{
-  String[] PtextLine;
+  String[] p_textLine;
   TextHandler hanja = new TextHandler();
 
   int wordLen;
@@ -10,7 +10,7 @@ class PTextHandler{
  
   
   PTextHandler(){
-    PtextLine = loadStrings("page1_hanja_definition.txt");
+    p_textLine = loadStrings("page1_hanja_definition.txt");
     wordDef = new ArrayList<String>();
     subhanja = new ArrayList<String>();
   }
@@ -21,21 +21,21 @@ class PTextHandler{
   }
   
   void popHanja(int index){
-    for(int i = 0; i<PtextLine.length; i++){
-      if(PtextLine[i].equals(hanja.hanjaArr.get(index))){
-        word = PtextLine[i];
-        wordLen = PtextLine[i].length();
-        wordMean = PtextLine[i+1];
+    for(int i = 0; i<p_textLine.length; i++){
+      if(p_textLine[i].equals(hanja.hanjaArr.get(index))){
+        word = p_textLine[i];
+        wordLen = p_textLine[i].length();
+        wordMean = p_textLine[i+1];
         int k = i+2;
-        println(PtextLine[i].charAt(0));
-        while(PtextLine[k].equals(" ") == false){
-          wordDef.add(PtextLine[k]);
+        println(p_textLine[i].charAt(0));
+        while(p_textLine[k].equals(" ") == false){
+          wordDef.add(p_textLine[k]);
           k++;
         }
         if(wordLen>=2){
           int j = k+1;
-          while(!PtextLine[j].equals(" ")){
-            subhanja.add(PtextLine[j]);
+          while(!p_textLine[j].equals(" ")){
+            subhanja.add(p_textLine[j]);
             j++;
           }
         }

@@ -24,7 +24,7 @@ class Duck {
     ypos = 10;
     xspeed = 1;
     yspeed = 1;
-    radius = duckH;
+    radius = duckH/2;
   }
 
   void display() {

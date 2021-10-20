@@ -36,7 +36,7 @@ class PWindow extends PApplet {
     
   }
 
-  void isCollision() {
+  void collision() {
     //detect which 한자어 does duck collide with and find index number of hanjaArr matching with that 한자어.
     //if this method is implemented well, delete 'poptext.popHanja(index);' in setup().
 

@@ -1,9 +1,9 @@
 class Duck {
- 
+
   PVector pos;
   float speed;
   boolean up, down, right, left = false;
-  
+
   float duckW, duckH;
   float radius;
   boolean collided = false;
@@ -25,21 +25,21 @@ class Duck {
   }
 
   void display() {
-    
-    if(up && !collided)
+
+    if (up && !collided)
       pos.y -=speed;
-    if(down && !collided)
+    if (down && !collided)
       pos.y +=speed;
-    if(left && !collided)
+    if (left && !collided)
       pos.x -=speed;
-    if(right && !collided)
+    if (right && !collided)
       pos.x +=speed;
-      
-    if(collided){
+
+    if (collided) {
       down = false;
       pos.y -= speed;
     }
-    
+
     push();
     //head
     fill(#F7FF1F );

@@ -13,9 +13,12 @@ float toDuckRatio = 1.786;
 
 ArrayList<Walldoor> wallDoors;
 
+boolean gameStart = false;
+
 Walldoor wall, door;
 Duck duck;
 Level level;
+Interface main;
 
 TextHandler tHandle; //Texthandler should break up text into  syllables
 //with 한자 and without. All spaces and syllables should be saved, but no parentheses.
@@ -45,62 +48,65 @@ void setup() {
 
   surface.setSize(w, h);
   background(100);
-  
+
   win = new PWindow();
   level = new Level(w, h); //Adds Walldoor object and combines them with the text from a TextHandler object
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
-  
+  main = new Interface();
 }
 
 void draw() {
 
   background(100);
 
-  level.display();
+  if (gameStart == true) {
 
-  duck.display();
+    level.display();
 
-  for (Walldoor wd :level.walldoorObjs) {
+    duck.display();
+
+    for (Walldoor wd : level.walldoorObjs) {
       duck.collision(wd);
+    }
+  } else {
+   main.main();
   }
-  
 }
 
 void mousePressed() {
-
 }
 
 void mouseReleased() {
-
 }
 
 void keyPressed() {
   //if(!duck.collided)
-    keyCheck(keyCode, true);
+  keyCheck(keyCode, true);
+
+  gameStart = true;
 }
 
 void keyReleased() {
   keyCheck(keyCode, false);
 }
 
-boolean keyCheck(int k, boolean b){
+boolean keyCheck(int k, boolean b) {
   //println(k); //Uncomment to check keyCode
   switch(k) {
 
-    case UP: 
-      return duck.up = b;
-      
-    case DOWN: 
-      return duck.down = b;
+  case UP:
+    return duck.up = b;
 
-    case RIGHT:
-       return duck.right = b;
-      
-    case LEFT:
-      return duck.left = b;
-    
-    default :
-      return b;
+  case DOWN:
+    return duck.down = b;
+
+  case RIGHT:
+    return duck.right = b;
+
+  case LEFT:
+    return duck.left = b;
+
+  default :
+    return b;
   }
-  
 }

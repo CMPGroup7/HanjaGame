@@ -15,11 +15,12 @@ class Walldoor {
   int fontSize;
 
   PShape rectObj;
-  char[] charArray;
-  String charConvS;
+  char[][] hangulHanja;
+  char hangul;
+  char hanja;
 
-  Walldoor(char[] pCh, float pX, float pY, int pFontSize, int ind_st, int ind_end, boolean bHanja) { //Constructor for several syllables
-
+  Walldoor(char[] pHang, char[] pHanj, float pX, float pY, int pFontSize, int ind_st, int ind_end, boolean bHanja) { //Constructor for several syllables
+// Not finished, not useable yet
     fontSize = pFontSize;
     x = pX;
     y = pY;
@@ -27,14 +28,15 @@ class Walldoor {
     indices[1]=ind_end;
     dim_W = ind_end - ind_st * fontSize;
     door = bHanja;
-    charArray = pCh;
-    for (int i = 0; i<charArray.length; i++)
-      charConvS+= ""+charArray[i];
+    hangulHanja = new char[2][];
+   // hangulHanja = {pHang, pHanj};
+    //for (int i = 0; i<hangulHanja.length; i++)
+     // charConvS+= ""+charArray[i];
     rectObj = createShape(RECT, x, y, dim_W, dim_H);
     
   }
 
-  Walldoor(char pCh, float pX, float pY, int pFontSize, int index, boolean bHanja) { //Constructor for single syllable Walldoor
+  Walldoor(char pHang, char pHanj, float pX, float pY, int pFontSize, int index, boolean bHanja) { //Constructor for single syllable Walldoor
 
     fontSize = pFontSize;
     x = pX;
@@ -43,8 +45,10 @@ class Walldoor {
     dim_W = fontSize;
     dim_H = fontSize;
     door = bHanja;
-    charArray = new char[1];
-    charConvS =""+ pCh;
+    //charArray = new char[1];
+    hangul = pHang;
+    hanja = pHanj;
+    
     rectObj = createShape(RECT, x, y, dim_W, dim_H);
     
   }
@@ -60,13 +64,14 @@ class Walldoor {
     if (collided && door) {
       push();
       fill(255, 255, 0);
-      text(charConvS,  x + (int)random(-10, 10),  y + (int)random(-10, 10));
+      text(""+hanja, x, y);
+      text(""+hangul,  x + (int)random(-10, 10),  y + (int)random(-10, 10));
       pop();
     } else if (!collided || !door){
       push();
       textAlign(LEFT, CENTER);
       fill(fontColor);
-      text(charConvS, x, y);
+      text(""+hangul, x, y);
       pop();
     }
     

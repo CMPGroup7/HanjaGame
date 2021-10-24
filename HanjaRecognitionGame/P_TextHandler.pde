@@ -22,7 +22,7 @@ class PTextHandler{
   
   void popHanja(int index){
     for(int i = 0; i<p_textLine.length; i++){
-      if(p_textLine[i].equals(hanja.hanjaArr.get(index))){
+      if(p_textLine[i].equals(hanja.hanjaContainer.get(index))){
         word = p_textLine[i];
         wordLen = p_textLine[i].length();
         wordMean = p_textLine[i+1];

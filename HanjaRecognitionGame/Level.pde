@@ -30,18 +30,21 @@ class Level {
         float sylX = colX*fontSize;
         float sylY = rowY*fontSize;
         boolean isHanja = false;
-
-        for (int hanjaSyllable : textObjs.hanjaIndex.subList(curSyl, textObjs.hanjaIndex.size())) {
-          if (curSyl == hanjaSyllable) {
+        
+        int i = -1;
+        for (Object syllable : textObjs.hanjaContainer.subList(curSyl, textObjs.hanjaContainer.size())) {
+          i++;
+          if (syllable instanceof Character ) {
             isHanja = true;
             break;
           }
         }
-        // println(isHanja);
+        
+       
         if (isHanja)
-          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), sylX, sylY, fontSize, curSyl, true));
+          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(i).toString().charAt(0), sylX, sylY, fontSize, curSyl, true));
         else if (!isHanja)
-          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), sylX, sylY, fontSize, curSyl, true));
+          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, false));
 
         curSyl++;
 

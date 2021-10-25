@@ -1,9 +1,13 @@
 //class for popup window
-PWindow win;
 class PWindow extends PApplet {
   PFont f ;
-  PWindowText poptext = new PWindowText();
-  int index = 0;
+  ArrayList<PWindowText> popText;
+  PWindowText displayText;
+  Table sprSheet;
+  ArrayList<Integer> poppedIndices;
+  String tablePath;
+  float pwX, pwY;
+  
   
   PWindow() {
     super();
@@ -12,31 +16,48 @@ class PWindow extends PApplet {
 
   void settings() {
     size(640, 640);
+    tablePath = "D:\\Documents\\ProcessingProjects\\HanjaGame\\HanjaRecognitionGame\\dict_file.tsv"; //Problem with file path. Had to use whole path
   }
 
   void setup() {
+    sprSheet = loadTable(tablePath);
     background(100);
     f = createFont("굴림", 20);
     textFont(f);
     textAlign(LEFT, CENTER);
-    poptext.popHanja(index);
+    popText = new ArrayList<PWindowText>();
+    displayText = new PWindowText();
+    pwX = level.fontSize; 
+    pwY = level.fontSize;
   }
 
   void draw() {
-    background(100);
-    
-    text(poptext.word+" ("+poptext.wordMean+")", x, y);
-    for (int j = 0; j<poptext.wordDef.size(); j++) {
-      text(poptext.wordDef.get(j), x, y+30*(j+1));
-      //println(poptext.wordDef.get(j));
-    }
-    for (int i = 0; i<poptext.subhanja.size(); i++) {
-      text(poptext.subhanja.get(i), x, y+30*(i+poptext.wordDef.size()+2));
-    }
-    
+    background(100);  
+    if(popText.size()>0){
+      text(displayText.expHanja, pwX, pwY);
+      text(displayText.expHangul, pwX, pwY+(level.fontSize*2));
+      text(displayText.expDef, pwX, pwY*4);
+   }
   }
 
-  void collision() {
+  void popIt(int p_index) {
+    
+    PWindowText pwText = new PWindowText();
+    boolean popped = false;
+    
+    for(int i = 0; i < popText.size(); i++){
+      pwText = popText.get(i); 
+      if (pwText.index == p_index){
+        popped = true;
+        break;
+      }  
+    }
+    
+    if(popText.size() > 0 && !popped){
+        popText.add(new PWindowText(sprSheet.getRow(p_index), p_index)); 
+    }else if(popText.size() > 0 && popped)
+        popText.get(p_index);
+    
     //detect which 한자어 does duck collide with and find index number of hanjaArr matching with that 한자어.
     //if this method is implemented well, delete 'poptext.popHanja(index);' in setup().
 

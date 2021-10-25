@@ -2,6 +2,7 @@ class Level {
 
   TextHandler textObjs;
   ArrayList<Walldoor> walldoorObjs;
+  
 
   // initLinePos-1의 값만큼 위의 공백을 만들고, spaceW 값 만큼 좌우 공백을 만들어 텍스트를 보여줄 범위를 지정한다.
   //   지정한 범위 내에서 텍스트를 보여준다.
@@ -12,6 +13,7 @@ class Level {
   int cols;
   int rows;
   PFont f;
+  int prioIndex = -1;
 
   Level(int w, int h) {
     f = createFont("굴림", fontSize);
@@ -68,5 +70,23 @@ class Level {
     text("도착 到着", width/2, height*0.93);
   }
   
+  void collision(){
+  
+    for (int i = 0; i < walldoorObjs.size(); i++) {
+      Walldoor wd = walldoorObjs.get(i);
+      duck.collision(wd);
+      
+      if(!wd.collided && wd.collidedOnce) //Checks which Walldoor has higher index to prioritize which Hanja should be displayed in PWindow
+        prioIndex = i;
+      else if(wd.collided)
+        prioIndex = i;
+      
+      if(prioIndex >= 0){
+        win.popIt(prioIndex); //Index might be too high, have to check against amount of Sino-korean words instead of Hanja syllables
+      }
+    }
+    
+  
+  }
   
 }

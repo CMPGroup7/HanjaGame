@@ -1,5 +1,5 @@
 //v1.5 2021-10-25
-
+PWindow win;
 float toH_ratio;
 float toW_ratio;
 int w, h;
@@ -11,19 +11,13 @@ float wallH = 100;
 
 float toDuckRatio = 1.786;
 
-ArrayList<Walldoor> wallDoors;
+//ArrayList<Walldoor> wallDoors;
 
 boolean gameStart = false;
 
-Walldoor wall, door;
 Duck duck;
 Level level;
-Interface mainScreen, ending;
-
-TextHandler tHandle; //Texthandler should break up text into  syllables
-//with 한자 and without. All spaces and syllables should be saved, but no parentheses.
-// These will only be used to seperate 한자 and non-한자 words + their syllables
-// Syllable = 음절 /한마디. 예를 들면 "사장님"라고 쓰면 음절이 세개입니다.
+Interface startScreen, ending;
 
 void setup() {
 
@@ -49,29 +43,28 @@ void setup() {
   surface.setSize(w, h);
   background(100);
 
-  win = new PWindow();
-  level = new Level(w, h); //Adds Walldoor object and combines them with the text from a TextHandler object
+  level = new Level(w, h); //Adds Walldoor objects and combines them with the text from a TextHandler object. Must be initialized first.
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
-  mainScreen = new Interface();
+  startScreen = new Interface();
   ending = new Interface();
+  win = new PWindow(); //Initialized last to make sure it can retrieve values
 }
 
 void draw() {
 
   background(100);
 
-  if (gameStart == false) {
-    mainScreen.mainScreen();
+  if (gameStart == false) { //Game state checks
+    startScreen.startScreen();
   }
   if (gameStart == true) {
 
     level.display();
 
     duck.display();
-
-    for (Walldoor wd : level.walldoorObjs) {
-      duck.collision(wd);
-    }
+    
+    level.collision();
+    
   }
   if (duck.pos.y >= height*0.9){
     ending.ending();

@@ -21,25 +21,6 @@ class Walldoor {
   char hangul;
   char hanja;
 
-/*
-  Walldoor(char[] pHang, char[] pHanj, float pX, float pY, int pFontSize, int ind_st, int ind_end, boolean bHanja) { //Constructor for several syllables
-// Not finished, not useable yet
-    fontSize = pFontSize;
-    x = pX;
-    y = pY;
-    indices[0]=ind_st;
-    indices[1]=ind_end;
-    dim_W = ind_end - ind_st * fontSize;
-    door = bHanja;
-    hangulHanja = new char[2][];
-   // hangulHanja = {pHang, pHanj};
-    //for (int i = 0; i<hangulHanja.length; i++)
-     // charConvS+= ""+charArray[i];
-    rectObj = createShape(RECT, x, y, dim_W, dim_H);
-    
-  }
-  */
-
   Walldoor(char pHang, char pHanj, float pX, float pY, int pFontSize, int index, boolean bHanja) { //Constructor for single syllable Walldoor
 
     fontSize = pFontSize;

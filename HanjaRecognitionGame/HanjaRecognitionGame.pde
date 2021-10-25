@@ -49,7 +49,7 @@ void setup() {
   surface.setSize(w, h);
   background(100);
 
-  //win = new PWindow();
+  win = new PWindow();
   level = new Level(w, h); //Adds Walldoor object and combines them with the text from a TextHandler object
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
   mainScreen = new Interface();
@@ -81,13 +81,13 @@ void draw() {
 
 void keyPressed() {
   //if(!duck.collided)
-  keyCheck(keyCode, true);
+  keyCheck(keyCode, true); //Sets values
 
   gameStart = true;
 }
 
 void keyReleased() {
-  keyCheck(keyCode, false);
+  keyCheck(keyCode, false); //Resets values
 }
 
 boolean keyCheck(int k, boolean b) {

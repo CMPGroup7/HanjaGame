@@ -2,7 +2,7 @@
 PWindow win;
 class PWindow extends PApplet {
   PFont f ;
-  PTextHandler poptext = new PTextHandler();
+  PWindowText poptext = new PWindowText();
   int index = 0;
   
   PWindow() {

@@ -1,4 +1,4 @@
-class PTextHandler{
+class PWindowText{
   String[] p_textLine;
   TextHandler hanja = new TextHandler();
 
@@ -9,7 +9,7 @@ class PTextHandler{
   ArrayList <String> subhanja;  
  
   
-  PTextHandler(){
+  PWindowText(){
     p_textLine = loadStrings("page1_hanja_definition.txt");
     wordDef = new ArrayList<String>();
     subhanja = new ArrayList<String>();

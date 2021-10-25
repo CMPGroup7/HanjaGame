@@ -25,7 +25,7 @@ class TextHandler {
       n = textLine[i];
       for (int j = 0; j < n.length(); j++) {
         text.add(n.charAt(j));
-        hanjaContainer.add(false);   
+        hanjaContainer.add(false);
       }
       wholeLen += n.length();
     }
@@ -57,14 +57,19 @@ class TextHandler {
         isHanja = false;
         indexEnd = i;
         stEndDiff = indexEnd - indexStart;
+        // text.remove(i);
+        // hanjaContainer.remove(i);
+        //  wholeLen--;
+        // i--;
+
+        for (int j = indexStart; j<=indexEnd; j++) {
+          hanjaContainer.set(j, text.get(j));
+        }
+
         text.remove(i);
         hanjaContainer.remove(i);
         wholeLen--;
         i--;
-
-        for (int j = indexEnd; j>=indexStart; j--) {
-          hanjaContainer.set(j, text.get(j)); 
-        }
 
         hanjaContainer.subList(indexStart-stEndDiff, indexEnd-stEndDiff).clear(); //Removes hangul behind
         text.subList(indexStart, indexEnd).clear(); //Removes hanja in-front
@@ -76,17 +81,18 @@ class TextHandler {
         hanjaCnt++; //Adds as one whole word to hanjaCnt
       }
     }
-   // for (int i = 0; i<hanjaContainer.size(); i++) {
-     int countSyllables = 0;
-      println(hanjaContainer.size());
-      for(Object hanjaSyllable : hanjaContainer ){
-        if(hanjaSyllable instanceof Character )
-          countSyllables++;
-      }
-      println(countSyllables);
+    // for (int i = 0; i<hanjaContainer.size(); i++) {
+    int countSyllables = 0;
+    println(hanjaContainer.size());
+    for (Object hanjaSyllable : hanjaContainer ) {
+      if (hanjaSyllable instanceof Character )
+        countSyllables++;
+    }
+    println(countSyllables);
+    println(text.size());
     //}
     //for (int i = 0; i<text.size(); i++) {
-      println(text.size());
-   // }
+    //  println(text.get(i));
+    //}
   }
 }

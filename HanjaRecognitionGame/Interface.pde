@@ -8,7 +8,7 @@ class Interface {
     f2 = createFont("굴림", 20 );
   }
 
-  void main() {
+  void mainScreen() {
     background(100);
 
     f1 = createFont("굴림", 50 );

@@ -6,7 +6,9 @@ class Duck {
 
   float duckW, duckH;
   float radius;
-  boolean collided = false;
+  boolean[] collisionPass = {false, true}; //collided, pass
+  boolean collided = collisionPass[0];
+  boolean pass = collisionPass[1];
 
   Duck() {
     pos = new PVector(width / 2, 10);
@@ -26,19 +28,20 @@ class Duck {
 
   void display() {
 
-    if (up && !collided)
+    if (up && pass)
       pos.y -=speed;
-    if (down && !collided)
+    if (down && pass)
       pos.y +=speed;
-    if (left && !collided)
+    if (left && pass)
       pos.x -=speed;
-    if (right && !collided)
+    if (right && pass)
       pos.x +=speed;
+  
 
-    if (collided) {
-      down = false;
-      pos.y -= speed;
-    }
+   // if (collided && !pass) {
+    //  down = false;
+    //  pos.y -= speed;
+   // }
 
     push();
     //head
@@ -56,9 +59,11 @@ class Duck {
     pop();
   }
 
-  boolean collision(Walldoor pWd) { // Takes a Walldoor.class and uses it to check its collision,
-    //set Duck object's collided value and then return it.
-    return collided =  pWd.collision(pos.x, pos.y, radius);
+  boolean[] collision(Walldoor pWd) { // Takes a Walldoor.class and uses it to check its collision,
+   collisionPass =  pWd.collision(pos.x, pos.y, radius);
+   collided = collisionPass[0];
+   pass = collisionPass[1];
+   return collisionPass;
   }
 
   float getXpos() {

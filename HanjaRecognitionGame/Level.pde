@@ -25,24 +25,24 @@ class Level {
 
     int curSyl = 0; //Initialize index to check textObjs.text with
     for (int rowY = initLinePos; curSyl < textObjs.text.size(); rowY+= lineSpacing) {
-      for (int colX = spaceW; colX < cols-spaceW; colX++) { //Same idea as TextHandler.showText()
+      for (int colX = spaceW; colX < cols-spaceW; colX++) { //Same idea as previous TextHandler.showText()
 
         float sylX = colX*fontSize;
         float sylY = rowY*fontSize;
         boolean isHanja = false;
         
-        int i = -1;
-        for (Object syllable : textObjs.hanjaContainer.subList(curSyl, textObjs.hanjaContainer.size())) {
-          i++;
-          if (syllable instanceof Character ) {
+       // int i = -1;
+        //for (Object syllable : textObjs.hanjaContainer.subList(curSyl, textObjs.hanjaContainer.size())) {
+         // i++;
+          if (textObjs.hanjaContainer.get(curSyl) instanceof Character ) {
             isHanja = true;
-            break;
+           // break;
           }
-        }
+        //}
         
        
         if (isHanja)
-          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(i).toString().charAt(0), sylX, sylY, fontSize, curSyl, true));
+          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(curSyl).toString().charAt(0), sylX, sylY, fontSize, curSyl, true));
         else if (!isHanja)
           walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, false));
 
@@ -55,8 +55,6 @@ class Level {
         break;
     }
 
-    //for (int i = ind_st; i<=ind_end; i++)
-    // sText+=""+textObj.text.get(i);
   }
 
   void display() {
@@ -69,4 +67,6 @@ class Level {
     rect(width/2, height*0.9, width, 5);//finish line
     text("도착 到着", width/2, height*0.93);
   }
+  
+  
 }

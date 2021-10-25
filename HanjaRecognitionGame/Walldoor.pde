@@ -77,18 +77,9 @@ class Walldoor {
     
   }
 
-  boolean pointColCheck(float pX, float pY) { //Mouse test
-    if (pX >= x &&
-      pX <= x + dim_W &&
-      pY >= y &&
-      pY <= y + dim_H)
-      return true;
-    else
-      return false;
-  }
+  boolean[] collision(float pX, float pY, float pRadius) { //Also added collision to Duck to check via Walldoor
 
-  boolean collision(float pX, float pY, float pRadius) { //Also added collision to Duck to check via Walldoor
-
+    boolean[] collisionPass = {false, true};
     float checkX = pX;
     float checkY = pY;
 
@@ -102,10 +93,14 @@ class Walldoor {
     float distY = pY - checkY;
     float distance = sqrt((distX *distX)+(distY*distY));
 
-    if (distance <= pRadius)
-      return collided = true; // Sets and returns collided value
-      
-    return collided = false;
+    if (distance <= pRadius){
+      collisionPass[0] = true;
+      collisionPass[1] = door;
+      return collisionPass; // Sets and returns collided value
+    }
+    
+    collided = collisionPass[0];
+    return collisionPass;
 
   }
 }

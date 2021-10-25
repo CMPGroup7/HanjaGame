@@ -1,4 +1,4 @@
-//v1.4 2021-10-20
+//v1.5 2021-10-25
 
 float toH_ratio;
 float toW_ratio;
@@ -18,7 +18,7 @@ boolean gameStart = false;
 Walldoor wall, door;
 Duck duck;
 Level level;
-Interface main, ending;
+Interface mainScreen, ending;
 
 TextHandler tHandle; //Texthandler should break up text into  syllables
 //with 한자 and without. All spaces and syllables should be saved, but no parentheses.
@@ -52,7 +52,7 @@ void setup() {
   //win = new PWindow();
   level = new Level(w, h); //Adds Walldoor object and combines them with the text from a TextHandler object
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
-  main = new Interface();
+  mainScreen = new Interface();
   ending = new Interface();
 }
 
@@ -61,7 +61,7 @@ void draw() {
   background(100);
 
   if (gameStart == false) {
-    main.main();
+    mainScreen.mainScreen();
   }
   if (gameStart == true) {
 
@@ -77,12 +77,6 @@ void draw() {
     ending.ending();
   }
 
-}
-
-void mousePressed() {
-}
-
-void mouseReleased() {
 }
 
 void keyPressed() {

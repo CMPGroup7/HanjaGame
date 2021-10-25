@@ -24,19 +24,18 @@ class TextHandler {
     for (int i = 0; i<textLine.length; i++) {
       n = textLine[i];
       for (int j = 0; j < n.length(); j++) {
-
         text.add(n.charAt(j));
-        hanjaContainer.add(false);
+        hanjaContainer.add(false);   
       }
       wholeLen += n.length();
     }
 
     /*
      Remove 한자 and parentheses from the 'text' array, and store 한자 words in hanjaContainer.
-     hanjaContainer stores whether the letters of the index are included in 한자어,
-     and if so, in which index of hanjaContainer is stored.
-     (If it is a syllable included in 한자어 store 한자 as a char.
-     If the syllable doesn't have 한자, default Object type is a Boolean with a value of false)
+     hanjaContainer stores whether the syllable is considered 한자어,
+     and if so it's stored in hanjaContainer as a Character instance.
+     (If it is a syllable included in 한자어 store 한자 as a Character.
+     If the syllable doesn't have 한자, the default Object type is a Boolean instance with a value of false)
      */
 
     int indexStart = -1;
@@ -56,15 +55,15 @@ class TextHandler {
       } else if (text.get(i) == ')') {
 
         isHanja = false;
-        indexEnd = i-1;
+        indexEnd = i;
         stEndDiff = indexEnd - indexStart;
         text.remove(i);
         hanjaContainer.remove(i);
         wholeLen--;
         i--;
 
-        for (int j = indexEnd; j>indexStart; j--) {
-          hanjaContainer.set(indexEnd-j, n.charAt(j)); //StringIndexOutOfBoundsException: index 45,length 34
+        for (int j = indexEnd; j>=indexStart; j--) {
+          hanjaContainer.set(j, text.get(j)); 
         }
 
         hanjaContainer.subList(indexStart-stEndDiff, indexEnd-stEndDiff).clear(); //Removes hangul behind
@@ -77,11 +76,17 @@ class TextHandler {
         hanjaCnt++; //Adds as one whole word to hanjaCnt
       }
     }
-    for (int i = 0; i<hanjaCnt; i++) {
-      println(hanjaContainer.get(i));
-    }
-    for (int i = 0; i<text.size(); i++) {
-      print(text.get(i));
-    }
+   // for (int i = 0; i<hanjaContainer.size(); i++) {
+     int countSyllables = 0;
+      println(hanjaContainer.size());
+      for(Object hanjaSyllable : hanjaContainer ){
+        if(hanjaSyllable instanceof Character )
+          countSyllables++;
+      }
+      println(countSyllables);
+    //}
+    //for (int i = 0; i<text.size(); i++) {
+      println(text.size());
+   // }
   }
 }

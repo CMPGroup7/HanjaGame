@@ -10,7 +10,7 @@ class Walldoor {
   float dim_H = 10; //Rect height
   color c = 0; //Rect color
   int strokeC = 0; //Rect border color
-  int[] indices = {-1, -1}; //Start and end index for checking where in TextHandler.text ArrayList it was retrieved from
+  int[] indices; //Individual and group index for checking where in TextHandler.text ArrayList it was retrieved from
 
   color fontColor = 255;
   int fontSize;
@@ -21,12 +21,12 @@ class Walldoor {
   char hangul;
   char hanja;
 
-  Walldoor(char pHang, char pHanj, float pX, float pY, int pFontSize, int index, boolean bHanja) { //Constructor for single syllable Walldoor
+  Walldoor(char pHang, char pHanj, float pX, float pY, int pFontSize, int index, int grpIndex, boolean bHanja) { //Constructor for single syllable Walldoor
 
     fontSize = pFontSize;
     x = pX;
     y = pY;
-    indices[0]=index;
+    indices = new int[]{index, grpIndex};
     dim_W = fontSize;
     dim_H = fontSize;
     door = bHanja;

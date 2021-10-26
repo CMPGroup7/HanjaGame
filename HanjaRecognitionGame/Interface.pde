@@ -1,7 +1,7 @@
 class Interface {
   PFont f1;
   PFont f2;
-  int score = 0;
+
 
   Interface() {
     f1 = createFont("굴림", 50 );
@@ -25,6 +25,6 @@ class Interface {
     fill(255);
 
     textFont(f2);
-    text(score+"개의 한자어를 찾았습니다!", width/2, height/2);
+    text(level.score+"개의 한자어를 찾았습니다!", width/2, height/2);
   }
 }

@@ -7,6 +7,7 @@ class TextHandler {
   String n;
   ArrayList<Character> text; //한자를 제외한 전체 텍스트를 담은 char형 arraylist
   ArrayList<Object> hanjaContainer; //각 음절이 한자어에 포함이 안되면 Object instance of Boolean type, 한자가 있으면 Object instance of Character type를 저장한다.
+  ArrayList<Integer> hanjaGroupIndex; //To check index similar to before, according to the whole Sino-korean word
 
   boolean isHanja = false;
   int hanjaCnt = 0;
@@ -14,6 +15,7 @@ class TextHandler {
   TextHandler() {
     text = new ArrayList<Character>();
     hanjaContainer = new ArrayList<Object>();
+    hanjaGroupIndex = new ArrayList<Integer>();
     textLine = loadStrings("page1.txt"); //page1.txt에서 한줄씩 끊어서 chars 배열에 저장
 
     /*
@@ -26,6 +28,7 @@ class TextHandler {
       for (int j = 0; j < n.length(); j++) {
         text.add(n.charAt(j));
         hanjaContainer.add(false);
+        hanjaGroupIndex.add(-1);
       }
       wholeLen += n.length();
     }
@@ -50,6 +53,7 @@ class TextHandler {
         //println(indexStart);
         text.remove(i);// Removes at "i" so following hanja therefore starts at "i"
         hanjaContainer.remove(i);
+        hanjaGroupIndex.remove(i);
         wholeLen--;
         i--;
       } else if (text.get(i) == ')') {
@@ -61,9 +65,10 @@ class TextHandler {
         // hanjaContainer.remove(i);
         //  wholeLen--;
         // i--;
-
+       
         for (int j = indexStart; j<=indexEnd; j++) {
           hanjaContainer.set(j, text.get(j));
+          hanjaGroupIndex.set(j, hanjaCnt);
         }
 
         text.remove(i);
@@ -71,14 +76,16 @@ class TextHandler {
         wholeLen--;
         i--;
 
-        hanjaContainer.subList(indexStart-stEndDiff, indexEnd-stEndDiff).clear(); //Removes hangul behind
+        hanjaGroupIndex.subList(indexStart-stEndDiff, indexEnd-stEndDiff).clear(); //Removes unwanted indices behind the Sino-korean word
+        hanjaContainer.subList(indexStart-stEndDiff, indexEnd-stEndDiff).clear(); //Removes hangul behind the Sino-korean word
         text.subList(indexStart, indexEnd).clear(); //Removes hanja in-front
         i-=stEndDiff; //Removes from loop i iteration value
         wholeLen-=stEndDiff; //Removes from whole length
 
         indexStart = -1; //Reset
         indexEnd = -1; //Reset
-        hanjaCnt++; //Adds as one whole word to hanjaCnt
+        hanjaCnt++;
+        //Adds as one whole word to hanjaCnt
       }
     }
     // for (int i = 0; i<hanjaContainer.size(); i++) {

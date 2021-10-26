@@ -1,13 +1,6 @@
-//import java.io.BufferedReader;
-//import java.io.DataOutputStream;
-//import java.io.InputStreamReader;
-//import java.net.HttpURLConnection;
-//import java.net.URL;
-//import java.net.URLEncoder;
+class PWindowText {
 
-class PWindowText{
-  
-  //Table sprSheet = loadTable(sketchPath()+"dict_file.tsv");
+  //Table sprSheet = loadTable(sketchPath("dict_file.tsv"));
 
   String expHanja; //한자어
   String expHangul; //Hangul
@@ -16,43 +9,35 @@ class PWindowText{
   ArrayList <String> subHanjaDef;
   TableRow row;
   int index;
-  
-  PWindowText(){}
-  
-  PWindowText(TableRow p_row, int p_index){
-    
+
+  PWindowText() {
+    index = -1;
+  }
+
+  PWindowText(TableRow p_row, int p_index) {
+
     row = p_row;
     index = p_index;
-    subHanja = new ArrayList<String>(); 
+    println(index);
+    subHanja = new ArrayList<String>();
     subHanjaDef = new ArrayList<String>();
-    
-    for(int i = 0; i < row.getColumnCount(); i++){
-      
-      if(i == 0)
-        expHanja = row.getString(i);
-      if(i == 1)
-        expHangul = row.getString(i);
-      if(i == 2)
-        expDef = row.getString(i);
-      if(i % 2 != 0 && i>2)
-        subHanja.add(row.getString(i));
-      if(i%2 == 0 && i>2)
-        subHanjaDef.add(row.getString(i));
-      
+
+    expHanja = row.getString(0);
+    expHangul = row.getString(1);
+    expDef = row.getString(2);
+
+    for (int i = 3; i < row.getColumnCount(); i+=2) {
+
+      subHanja.add(row.getString(i));
+      subHanjaDef.add(row.getString(i+1));
     }
     
-    println(expHanja);
+     println(expHanja);
     println(expHangul);
     println(expDef);
-    for(String subSyl : subHanja)
-      println(subSyl);
-    for(String subSylDef : subHanjaDef)
-      println(subSylDef);
-      
+    //  for (String subSyl : subHanja)
+    //   println(subSyl);
+    // for (String subSylDef : subHanjaDef)
+    //   println(subSylDef);
   }
-  
-  void reset(){
-    
-  }
-  
-  }
+}

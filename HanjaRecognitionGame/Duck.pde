@@ -6,7 +6,7 @@ class Duck {
 
   float duckW, duckH;
   float radius;
- // boolean[] collisionPass = {false, true}; //collided, pass
+
   boolean collided = false;
   boolean pass = true;
 
@@ -65,16 +65,15 @@ class Duck {
     pop();
   }
 
-  float collision(Walldoor pWd) { // Takes a Walldoor.class and uses it to check its collision,
+  float collision(Walldoor pWd) { // Takes a Walldoor.class and uses it to check its collision, and returns bounce value
     boolean[] collisionPass =  pWd.collision(pos.x, pos.y, radius);
     collided = collisionPass[0];
     pass = collisionPass[1];
     
     if(collided && !pass)
-      return pos.y -= pWd.dim_H;
+      return pos.y -= radius;
     
     return 0.0f;
-   // return collisionPass;
   }
 
   float getXpos() {

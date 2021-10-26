@@ -1,14 +1,11 @@
 //class for popup window
 class PWindow extends PApplet {
   PFont f ;
-  ArrayList<PWindowText> popText;
-  PWindowText displayText;
+  PWindowText popText;
   Table sprSheet;
-  ArrayList<Integer> poppedIndices;
   String tablePath;
   float pwX, pwY;
-  
-  
+
   PWindow() {
     super();
     PApplet.runSketch(new String[] {this.getClass().getSimpleName()}, this);
@@ -25,50 +22,33 @@ class PWindow extends PApplet {
     f = createFont("굴림", 20);
     textFont(f);
     textAlign(LEFT, CENTER);
-    popText = new ArrayList<PWindowText>();
-    displayText = new PWindowText();
-    pwX = level.fontSize; 
+    popText = new PWindowText();
+    pwX = level.fontSize;
     pwY = level.fontSize;
   }
 
   void draw() {
-    background(100);  
-    if(popText.size()>0){
-      text(displayText.expHanja, pwX, pwY);
-      text(displayText.expHangul, pwX, pwY+(level.fontSize*2));
-      text(displayText.expDef, pwX, pwY*4);
-   }
+    background(100);
+    if (popText.index > -1) {
+      text(popText.expHanja, pwX, pwY);
+      text(popText.expHangul, pwX, pwY+(level.fontSize*2));//NullPointerException //IndexOutOfBounds 0 out of length 0
+      text(popText.expDef, pwX, pwY*4);
+    }
   }
 
   void popIt(int p_index) {
-    
-    PWindowText pwText = new PWindowText();
-    boolean popped = false;
-    
-    for(int i = 0; i < popText.size(); i++){
-      pwText = popText.get(i); 
-      if (pwText.index == p_index){
-        popped = true;
-        break;
-      }  
-    }
-    
-    if(popText.size() > 0 && !popped){
-        popText.add(new PWindowText(sprSheet.getRow(p_index), p_index)); 
-    }else if(popText.size() > 0 && popped)
-        popText.get(p_index);
-    
-    //detect which 한자어 does duck collide with and find index number of hanjaArr matching with that 한자어.
-    //if this method is implemented well, delete 'poptext.popHanja(index);' in setup().
 
-    //index = save index number;
-    //poptext.reset();
-    //poptext.popHanja(index);
+    popText =  new PWindowText(sprSheet.getRow(p_index), p_index);  //Send TableRow and index of that row for storing in PWindowText
+
+  }
+
+  void reset() { //Re-initializes popText so index is -1
+    popText = new PWindowText();
   }
 
   //code for testing whether all hanja definition is saved and represent well.
   //void mousePressed() {
-  //  if (index<poptext.hanja.hanjaArr.size()-1) {
+  //  if (index<popText.hanja.hanjaArr.size()-1) {
   //    index++;
   //    poptext.reset();
   //    poptext.popHanja(index);

@@ -2,7 +2,6 @@ class Level {
 
   TextHandler textObjs;
   ArrayList<Walldoor> walldoorObjs;
-  
 
   // initLinePos-1의 값만큼 위의 공백을 만들고, spaceW 값 만큼 좌우 공백을 만들어 텍스트를 보여줄 범위를 지정한다.
   //   지정한 범위 내에서 텍스트를 보여준다.
@@ -13,7 +12,8 @@ class Level {
   int cols;
   int rows;
   PFont f;
-  int prioIndex = -1;
+  public int score = 0;
+  int totCol = 0;
 
   Level(int w, int h) {
     f = createFont("굴림", fontSize);
@@ -25,28 +25,24 @@ class Level {
     cols = w/fontSize;
     rows = h/fontSize;
 
+    boolean isHanja= false;
+
     int curSyl = 0; //Initialize index to check textObjs.text with
     for (int rowY = initLinePos; curSyl < textObjs.text.size(); rowY+= lineSpacing) {
       for (int colX = spaceW; colX < cols-spaceW; colX++) { //Same idea as previous TextHandler.showText()
 
         float sylX = colX*fontSize;
         float sylY = rowY*fontSize;
-        boolean isHanja = false;
-        
-       // int i = -1;
-        //for (Object syllable : textObjs.hanjaContainer.subList(curSyl, textObjs.hanjaContainer.size())) {
-         // i++;
-          if (textObjs.hanjaContainer.get(curSyl) instanceof Character ) {
-            isHanja = true;
-           // break;
-          }
-        //}
-        
-       
+        isHanja = false;
+
+        if (textObjs.hanjaContainer.get(curSyl) instanceof Character) {
+          isHanja = true;
+        }
+
         if (isHanja)
-          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(curSyl).toString().charAt(0), sylX, sylY, fontSize, curSyl, true));
+          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(curSyl).toString().charAt(0), sylX, sylY, fontSize, curSyl, textObjs.hanjaGroupIndex.get(curSyl), true));
         else if (!isHanja)
-          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, false));
+          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, -1, false));
 
         curSyl++;
 
@@ -56,37 +52,39 @@ class Level {
       if (curSyl>=textObjs.text.size())
         break;
     }
-
   }
+
 
   void display() {
     textFont(f);
-    for (Walldoor walldoors : walldoorObjs)
-      walldoors.display();
+    score = totCol;
+    totCol = 0;
+    for (Walldoor walldoor : walldoorObjs){
+      walldoor.display();
+      if(walldoor.collidedOnce == true && walldoor.door){
+        totCol++;
+      }
+    }
+    //score += totCol; //Forever and ever
     rectMode(CENTER);
-    
+
     fill(255);
     rect(width/2, height*0.9, width, 5);//finish line
     text("도착 到着", width/2, height*0.93);
+    
   }
-  
-  void collision(){
-  
+
+  void collision() {
+    
     for (int i = 0; i < walldoorObjs.size(); i++) {
       Walldoor wd = walldoorObjs.get(i);
       duck.collision(wd);
+
+      if (wd.door && !wd.collided && wd.collidedOnce) 
+         win.popIt(wd.indices[1]);
+      else if (wd.door && wd.collided)
+         win.popIt(wd.indices[1]);
       
-      if(!wd.collided && wd.collidedOnce) //Checks which Walldoor has higher index to prioritize which Hanja should be displayed in PWindow
-        prioIndex = i;
-      else if(wd.collided)
-        prioIndex = i;
-      
-      if(prioIndex >= 0){
-        win.popIt(prioIndex); //Index might be too high, have to check against amount of Sino-korean words instead of Hanja syllables
-      }
     }
-    
-  
   }
-  
 }

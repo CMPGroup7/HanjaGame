@@ -1,7 +1,9 @@
 //class for popup window
 class PWindow extends PApplet {
+ 
   PFont f ;
   PWindowText popText;
+  
   Table sprSheet;
   String tablePath;
   float pwX, pwY;
@@ -29,20 +31,20 @@ class PWindow extends PApplet {
 
   void draw() {
     background(100);
-    if (popText.index > -1) {
+    if (popText.index > -1) { //Checks so that PWindowText
       text(popText.expHanja, pwX, pwY);
       text(popText.expHangul, pwX, pwY+(level.fontSize*2));//NullPointerException //IndexOutOfBounds 0 out of length 0
       text(popText.expDef, pwX, pwY*4);
     }
   }
 
-  void popIt(int p_index) {
+  void popIt(int p_index) { //Takes index of row, being hanjaGroupIndex
 
-    popText =  new PWindowText(sprSheet.getRow(p_index), p_index);  //Send TableRow and index of that row for storing in PWindowText
+    popText =  new PWindowText(sprSheet.getRow(p_index), p_index);  //Send TableRow and index of that row for storing in PWindowText object (popText)
 
   }
 
-  void reset() { //Re-initializes popText so index is -1
+  void reset() { //Re-initializes popText so index is -1,
     popText = new PWindowText();
   }
 

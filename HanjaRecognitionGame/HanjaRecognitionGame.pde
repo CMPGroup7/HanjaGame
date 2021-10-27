@@ -11,8 +11,6 @@ float wallH = 100;
 
 float toDuckRatio = 1.786;
 
-//ArrayList<Walldoor> wallDoors;
-
 boolean gameStart = false;
 
 Duck duck;
@@ -43,7 +41,7 @@ void setup() {
   surface.setSize(w, h);
   background(100);
 
-  level = new Level(w, h); //Adds Walldoor objects and combines them with the text from a TextHandler object. Must be initialized first.
+  level = new Level(w, h); //Adds Walldoor objects and combines them with the text from a TextHandler object. Must be initialized first since PWindow needs it.
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
   startScreen = new Interface();
   ending = new Interface();
@@ -63,7 +61,7 @@ void draw() {
 
     duck.display();
     
-    level.collision();
+    level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
     
   }
   if (duck.pos.y >= height*0.9){

@@ -42,7 +42,7 @@ class Level {
         if (isHanja)
           walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(curSyl).toString().charAt(0), sylX, sylY, fontSize, curSyl, textObjs.hanjaGroupIndex.get(curSyl), true));
         else if (!isHanja)
-          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, -1, false));
+          walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, -1, false));  //Constructor explained in Walldoor
 
         curSyl++;
 
@@ -78,12 +78,12 @@ class Level {
     
     for (int i = 0; i < walldoorObjs.size(); i++) {
       Walldoor wd = walldoorObjs.get(i);
-      duck.collision(wd);
+      duck.collision(wd); //Sends every Walldoor object to Duck object to return a float to duck.pos.y depending on if it collided or not
 
       if (wd.door && !wd.collided && wd.collidedOnce) 
-         win.popIt(wd.indices[1]);
+         win.popIt(wd.indices[1]); //Sends Walldoor objects hanjaGroupIndex (last place in indices array) to  PWindow if object collidedOnce but isn't collided
       else if (wd.door && wd.collided)
-         win.popIt(wd.indices[1]);
+         win.popIt(wd.indices[1]); //Does the same if door and collided is true
       
     }
   }

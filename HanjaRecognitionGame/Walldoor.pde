@@ -21,6 +21,7 @@ class Walldoor {
   char hangul;
   char hanja;
 
+//Takes a hangul char, hanja char, x+y positions, font size,  individual index in hanjaContainer/ text, hanjaGroupIndex to check which word, and a door boolean
   Walldoor(char pHang, char pHanj, float pX, float pY, int pFontSize, int index, int grpIndex, boolean bHanja) { //Constructor for single syllable Walldoor
 
     fontSize = pFontSize;
@@ -45,42 +46,42 @@ class Walldoor {
     shape(rectObj);
     pop();
    
-    if (collided && door) {
+    if (collided && door) { //Every time any door is collided
       push();
       textAlign(LEFT, CENTER);
       fill(255, 255, 0);
       text(""+hanja, x, y);
-      text(""+hangul,  x + (int)random(-10, 10),  y + (int)random(-10, 10));
+      text(""+hangul,  x + (int)random(-10, 10),  y + (int)random(-10, 10)); //예진 's effect
       pop();
-    } else if (!collidedOnce || !door){
+    } else if (!collidedOnce || !door){ //if not collidedOnce then it should not display hanja. If not a door then it shouldn't either.
       push();
       textAlign(LEFT, CENTER);
       fill(fontColor);
       text(""+hangul, x, y);
       pop();
-    }else if (collidedOnce && door && colorShift <= 0){
+    }else if (collidedOnce && door && colorShift <= 0){ //Checks if a door has been collidedOnce and hasn't been recolored
       push();
       textAlign(LEFT, CENTER);
       
-      int r = fontColor >> 16 & 0xFF;
-      int g = fontColor >> 8 & 0xFF;
-      int b = fontColor & 0xFF;
-      int a = fontColor >> 24 & 0xFF;
+      int r = fontColor >> 16 & 0xFF; //same as function as red()
+      int g = fontColor >> 8 & 0xFF; //same as green()
+      int b = fontColor & 0xFF;     // same here. 
+      int a = fontColor >> 24 & 0xFF; //Much lighter function since it doesn't call the function
       
       colorShift = 200;
-      a = a + colorShift % 255;
+      a = a + colorShift % 255; //Adds a value to the respective colors, excluding green, and if it's larger or same as 255 then it starts from 0 again
       r = r + colorShift % 255;
       b = b + colorShift % 255;
       
-      fontColor = color(r,g,b,a);
+      fontColor = color(r,g,b,a); // Applies new color to fontColor. I could do the same here, but a bit complicated for me
       fill(fontColor);
-      text(""+hanja, x, y);
+      text(""+hanja, x, y); //Then displays hanja
       pop();
-    }else if (collidedOnce && door && colorShift > 0){
+    }else if (collidedOnce && door && colorShift > 0){ //Continuation without changing color
       push();
       textAlign(LEFT, CENTER);
       fill(fontColor);
-      text(""+hanja, x, y);
+      text(""+hanja, x, y); //Keeps displaying hanja
       pop();
     }
     
@@ -116,7 +117,7 @@ class Walldoor {
       return collisionPass; 
     }
     
-    return collisionPass;
+    return collisionPass; //for setting collided and pass in Duck class
 
   }
 }

@@ -28,17 +28,6 @@ class Duck {
 
   void display() {
 
-    if (collided) {
-      if (up && pass)
-        pos.y -=speed;
-      if (down && pass)
-        pos.y +=speed;
-      if (left && pass)
-        pos.x -=speed;
-      if (right && pass)
-        pos.x +=speed;
-    }
-
     if (up)
       pos.y -=speed;
     if (down)
@@ -47,7 +36,6 @@ class Duck {
       pos.x -=speed;
     if (right)
       pos.x +=speed;
-
 
     push();
     //head
@@ -70,10 +58,11 @@ class Duck {
     collided = collisionPass[0];
     pass = collisionPass[1];
     
-    if(collided && !pass)
-      return pos.y -= radius;
+    if(collided && !pass) //If collided and not a passable object. Will be used for when there will be closed doors as well
+      return pos.y -= radius; //Send flying
     
-    return 0.0f;
+    pass = true;
+    return 0.0f; //Otherwise nothing
   }
 
   float getXpos() {

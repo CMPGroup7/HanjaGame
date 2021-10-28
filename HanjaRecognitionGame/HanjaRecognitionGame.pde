@@ -18,6 +18,9 @@ boolean tutorial = false;
 
 SoundFile intro_sound;
 SoundFile click;
+SoundFile ring;
+SoundFile narration;
+SoundFile ending_sound;
 
 Duck duck;
 Level level;
@@ -52,12 +55,14 @@ void setup() {
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
   startScreen = new Interface();
   ending = new Interface();
-  
 
   intro_sound = new SoundFile(this, "main_bgm.wav");
   intro_sound.loop();
+  narration = new SoundFile(this, "narration.wav");
+  ending_sound = new SoundFile(this, "ending_bgm.wav");
 
   click = new SoundFile(this, "click.wav");
+  ring  = new SoundFile(this, "ring.wav");
 }
 
 void draw() {
@@ -93,7 +98,7 @@ void keyReleased() {
 }
 
 boolean keyCheck(int k, boolean b) {
- // println(k); //Uncomment to check keyCode
+  // println(k); //Uncomment to check keyCode
   switch(k) {
 
   case UP:
@@ -107,7 +112,7 @@ boolean keyCheck(int k, boolean b) {
 
   case LEFT:
     return duck.left = b;
-    
+
   case 69:
     return duck.interacting = b;
 
@@ -141,8 +146,9 @@ void mouseReleased() {
     if (gameStart == false&&tutorial == false) {
       click.play();
       gameStart = true;
-      intro_sound.stop();
-       startScreen.main_background = loadImage("game_back.png");
+      narration.play();
+      narration.loop();
+      startScreen.main_background = loadImage("game_back.png");
       win = new PWindow(); //Initialized last to make sure it can retrieve values
     }
   }

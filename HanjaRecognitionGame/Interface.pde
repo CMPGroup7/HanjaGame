@@ -2,7 +2,7 @@ class Interface {
   PFont f1;
   PFont f2;
   PImage main_background;
-  
+
 
   Interface() {
     f1 = createFont("굴림", 50 );
@@ -22,8 +22,8 @@ class Interface {
     //textFont(f2);
     //text("시작하려면 아무 키나 누르세요", width/2, height/2+100);
   }
-  
-  void setGameBackground(){
+
+  void setGameBackground() {
     imageMode(CENTER);
     image(main_background, width/2, height/2, width, height);
   }
@@ -31,12 +31,15 @@ class Interface {
   void ending() {
     background(100);
     fill(255);
+    narration.stop();
+    intro_sound.stop();
+//    ending_sound.play();    the sound cracks on my computer for some reason..
 
+    textAlign(CENTER);
     textFont(f2);
     text(level.score+"개의 한자어를 찾았습니다!", width/2, height/2);
   }
-  
-  void tutorial(){
-    
+
+  void tutorial() {
   }
 }

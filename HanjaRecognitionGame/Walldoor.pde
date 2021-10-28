@@ -79,6 +79,7 @@ class Walldoor {
       fill(fontColor);
       text(""+hanja, x, y); //Then displays hanja
       pop();
+      ring.play();
     } else if (collidedOnce && door && colorShift > 0) { //Continuation without changing color
       push();
       textAlign(LEFT, CENTER);

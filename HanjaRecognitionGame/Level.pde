@@ -81,11 +81,13 @@ class Level {
     }
     //score += totCol; //Forever and ever
     rectMode(CENTER);
-
+    noStroke();
     fill(255);
     textAlign(CENTER);
     rect(width/2, height*0.9, width, 5);//finish line
-    text("Found Hanja: "+score+"/"+totalHanja+" 도착 到着", width/2, height*0.93);
+    text("도착 到着", width/2, height*0.93);
+    textAlign(RIGHT);
+    text("Found Hanja: "+score+"/"+totalHanja+"", width, height*0.98);
     
   }
 

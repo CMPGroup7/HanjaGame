@@ -31,6 +31,7 @@ class Duck {
       pos.x +=speed;
 
     push();
+    stroke(0);
     //head
     fill(#F7FF1F );
     ellipse(pos.x, pos.y, duckW, duckH);

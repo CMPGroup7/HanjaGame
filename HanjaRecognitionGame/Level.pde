@@ -13,6 +13,7 @@ class Level {
   int rows;
   PFont f;
   public int score = 0;
+  public int totalHanja;
   int totCol = 0;
 
   Level(int w, int h) {
@@ -25,6 +26,7 @@ class Level {
     cols = w/fontSize;
     rows = h/fontSize;
 
+    boolean[] prevHanja = {false, false};
     boolean isHanja= false;
 
     int curSyl = 0; //Initialize index to check textObjs.text with
@@ -33,17 +35,28 @@ class Level {
 
         float sylX = colX*fontSize;
         float sylY = rowY*fontSize;
-        isHanja = false;
-
+        
+        if(isHanja){
+          prevHanja[curSyl % prevHanja.length] = true;
+        }
+        
         if (textObjs.hanjaContainer.get(curSyl) instanceof Character) {
           isHanja = true;
+        }else{
+          isHanja = false;
         }
 
-        if (isHanja)
+        if (isHanja){
+          totalHanja++;
           walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), textObjs.hanjaContainer.get(curSyl).toString().charAt(0), sylX, sylY, fontSize, curSyl, textObjs.hanjaGroupIndex.get(curSyl), true));
-        else if (!isHanja)
+        }else if (!isHanja)
           walldoorObjs.add(new Walldoor(textObjs.text.get(curSyl), ' ', sylX, sylY, fontSize, curSyl, -1, false));  //Constructor explained in Walldoor
 
+        if(isHanja && !prevHanja[0] && prevHanja[1]){
+          walldoorObjs.get(curSyl-1).excPass = true;
+          walldoorObjs.get(curSyl-2).excPass = true;
+        }
+       
         curSyl++;
 
         if (curSyl>=textObjs.text.size())
@@ -69,8 +82,9 @@ class Level {
     rectMode(CENTER);
 
     fill(255);
+    textAlign(CENTER);
     rect(width/2, height*0.9, width, 5);//finish line
-    text("도착 到着", width/2, height*0.93);
+    text("Found Hanja: "+score+"/"+totalHanja+" 도착 到着", width/2, height*0.93);
     
   }
 

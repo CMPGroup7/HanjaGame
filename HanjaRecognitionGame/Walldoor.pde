@@ -1,17 +1,19 @@
 class Walldoor {
   // Will make a Walldoor object which can or cannot be opened
-
+  boolean excPass = false; //Exception for non-Hanja that will be passable anyway. Seperated to distinguish between hanja and non-Hanja indices
   boolean door = false; //Usually a wall
   boolean collidedOnce = false;
   boolean collided = false; //Variable for storing and checking collision
+
+  int[] indices; //Individual and group index for checking where in TextHandler.text ArrayList it was retrieved from
+  
   float x = 0;
   float y = 0; // x and y positions
   float dim_W = 10; //Rect width
   float dim_H = 10; //Rect height
-  color c = 0; //Rect color
-  int strokeC = 0; //Rect border color
-  int[] indices; //Individual and group index for checking where in TextHandler.text ArrayList it was retrieved from
-
+  
+  color fillC = 0; //Rect color
+  int strokeC = 100; //Rect border color
   color fontColor = 255;
   int fontSize;
   int colorShift = 0;
@@ -42,7 +44,7 @@ class Walldoor {
   void display() {
     push();
     rectObj.setStroke(strokeC);
-    rectObj.setFill(c);
+    rectObj.setFill(fillC);
     shape(rectObj);
     pop();
    
@@ -113,7 +115,13 @@ class Walldoor {
       collided = true;
       
       collisionPass[0] = collided;
-      collisionPass[1] = door;
+      
+      if(excPass) //Sets an exception and so that it can be handled like a door
+        collisionPass[1] = excPass;
+      else{   
+        collisionPass[1] = door;
+      }
+      
       return collisionPass; 
     }
     

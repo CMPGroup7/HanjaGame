@@ -11,7 +11,7 @@ float y = height/2;
 float wallW = 100;
 float wallH = 100;
 
-float toDuckRatio = 1.786;
+float toDuckRatio = 1.25;
 
 boolean gameStart = false;
 boolean tutorial = false;
@@ -93,7 +93,7 @@ void keyReleased() {
 }
 
 boolean keyCheck(int k, boolean b) {
-  //println(k); //Uncomment to check keyCode
+ // println(k); //Uncomment to check keyCode
   switch(k) {
 
   case UP:
@@ -107,6 +107,9 @@ boolean keyCheck(int k, boolean b) {
 
   case LEFT:
     return duck.left = b;
+    
+  case 69:
+    return duck.interacting = b;
 
   default :
     return b;

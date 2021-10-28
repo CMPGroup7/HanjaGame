@@ -15,6 +15,7 @@ class Level {
   public int score = 0;
   public int totalHanja;
   int totCol = 0;
+  
 
   Level(int w, int h) {
     f = createFont("굴림", fontSize);
@@ -94,7 +95,7 @@ class Level {
       Walldoor wd = walldoorObjs.get(i);
       duck.collision(wd); //Sends every Walldoor object to Duck object to return a float to duck.pos.y depending on if it collided or not
 
-      if (wd.door && wd.collided)
+      if (wd.door && wd.collided && wd.interaction)
          win.popIt(wd.indices[1]); //Pops Sino-korean word if door and collided is true and stores it as a PWindowText object in PWindow
       
     }

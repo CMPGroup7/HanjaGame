@@ -9,14 +9,7 @@ class Duck {
 
   boolean collided = false;
   boolean pass = true;
-
-  Duck() {
-    pos = new PVector(width / 2, 10);
-    duckW = 50;
-    duckH = 45;
-    speed = 1;
-    radius = duckH;
-  }
+  boolean interacting = false;
 
   Duck(float pW) {
     pos = new PVector(width / 2, 10);
@@ -54,21 +47,28 @@ class Duck {
   }
 
   float collision(Walldoor pWd) { // Takes a Walldoor.class and uses it to check its collision, and returns bounce value
-    boolean[] collisionPass =  pWd.collision(pos.x, pos.y, radius);
+    boolean[] collisionPass =  pWd.collision(pos.x, pos.y, radius, interacting);
     collided = collisionPass[0];
     pass = collisionPass[1];
     
-    if(collided && !pass) //If collided and not a passable object. Will be used for when there will be closed doors as well
-      return pos.y -= radius; //Send flying
+    if(interacting && collided && pass)
+      return 0.0f;
+      
+    else if(interacting && collided && !pass) //If interacted with while collided and not a passable object.
+      return pos.y = lerp(pos.y, 10, 0.8);  //Severe punishment for cheating. Fly you fool!
+   
+    else if(!interacting && collided)    
+        return pos.y -= radius/2; //Bounce
     
-    pass = true;
-    return 0.0f; //Otherwise nothing
+    else
+      return 0.0f;
   }
-
+/*
   float getXpos() {
     return pos.x;
   }
   float getYpos() {
     return pos.y;
   }
+  */
 }

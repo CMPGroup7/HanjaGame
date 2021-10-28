@@ -18,7 +18,7 @@ class PWindow extends PApplet {
 
   void settings() {
     size(640, 640);
-    tablePath = "D:\\Documents\\ProcessingProjects\\HanjaGame\\HanjaRecognitionGame\\dict_file.tsv"; //Problem with file path. Had to use whole path
+    tablePath = "C:\\Users\\Owner\\Desktop\\hanja\\HanjaGame\\HanjaRecognitionGame\\dict_file.tsv"; //Problem with file path. Had to use whole path
   }
 
   void setup() {

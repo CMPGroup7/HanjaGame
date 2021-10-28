@@ -6,7 +6,10 @@ class PWindow extends PApplet {
   
   Table sprSheet;
   String tablePath;
+  float sXY;
   float pwX, pwY;
+  float spacing;
+  float repeatSpacing;
 
   PWindow() {
     super();
@@ -19,22 +22,26 @@ class PWindow extends PApplet {
   }
 
   void setup() {
-    sprSheet = loadTable(tablePath);
+    sprSheet = loadTable(tablePath, "header");
     background(100);
     f = createFont("굴림", 20);
     textFont(f);
     textAlign(LEFT, CENTER);
     popText = new PWindowText();
+  
     pwX = level.fontSize;
     pwY = level.fontSize;
+    spacing = level.lineSpacing;
+   
   }
 
   void draw() {
     background(100);
     if (popText.index > -1) { //Checks so that PWindowText
-      text(popText.expHanja, pwX, pwY);
-      text(popText.expHangul, pwX, pwY+(level.fontSize*2));//NullPointerException //IndexOutOfBounds 0 out of length 0
-      text(popText.expDef, pwX, pwY*4);
+   
+      textAlign(LEFT);
+      text(popText.expHanja+"    ["+ popText.expHangul+"]\n"+ popText.expDef+"\n\n"+popText.subHanja.get(0)+"\n"+ popText.subHanjaDef.get(0), pwX, pwY);
+ 
     }
   }
 
@@ -48,12 +55,4 @@ class PWindow extends PApplet {
     popText = new PWindowText();
   }
 
-  //code for testing whether all hanja definition is saved and represent well.
-  //void mousePressed() {
-  //  if (index<popText.hanja.hanjaArr.size()-1) {
-  //    index++;
-  //    poptext.reset();
-  //    poptext.popHanja(index);
-  //  }
-  //}
 }

@@ -80,10 +80,8 @@ class Level {
       Walldoor wd = walldoorObjs.get(i);
       duck.collision(wd); //Sends every Walldoor object to Duck object to return a float to duck.pos.y depending on if it collided or not
 
-      if (wd.door && !wd.collided && wd.collidedOnce) 
-         win.popIt(wd.indices[1]); //Sends Walldoor objects hanjaGroupIndex (last place in indices array) to  PWindow if object collidedOnce but isn't collided
-      else if (wd.door && wd.collided)
-         win.popIt(wd.indices[1]); //Does the same if door and collided is true
+      if (wd.door && wd.collided)
+         win.popIt(wd.indices[1]); //Pops Sino-korean word if door and collided is true and stores it as a PWindowText object in PWindow
       
     }
   }

@@ -6,6 +6,7 @@ class PWindow extends PApplet {
   
   Table sprSheet;
   String tablePath;
+  //String data
   float sXY;
   float pwX, pwY;
   float spacing;
@@ -18,11 +19,12 @@ class PWindow extends PApplet {
 
   void settings() {
     size(640, 640);
-    tablePath = "C:\\Users\\Owner\\Desktop\\hanja\\HanjaGame\\HanjaRecognitionGame\\dict_file.tsv"; //Problem with file path. Had to use whole path
+    
+    tablePath = "D:\\Documents\\ProcessingProjects\\HanjaGame\\HanjaRecognitionGame"; //Problem with file path. Had to use whole path
   }
 
   void setup() {
-    sprSheet = loadTable(tablePath, "header");
+    sprSheet = loadTable(tablePath+"\\dict_file.tsv", "header");
     background(100);
     f = createFont("굴림", 20);
     textFont(f);
@@ -31,7 +33,6 @@ class PWindow extends PApplet {
   
     pwX = level.fontSize;
     pwY = level.fontSize;
-    spacing = level.lineSpacing;
    
   }
 
@@ -40,7 +41,9 @@ class PWindow extends PApplet {
     if (popText.index > -1) { //Checks so that PWindowText
    
       textAlign(LEFT);
-      text(popText.expHanja+"    ["+ popText.expHangul+"]\n"+ popText.expDef+"\n\n"+popText.subHanja.get(0)+"\n"+ popText.subHanjaDef.get(0), pwX, pwY);
+      text(popText.expHanja+"    ["+ popText.expHangul+"]\n"+ popText.expDef+"\n\n\n"
+      +popText.subHanja.get(0)+"    " +popText.subHanjaDef.get(0)+"\n\n" 
+      +popText.subHanja.get(1)+"    " +popText.subHanjaDef.get(1), pwX, pwY);
  
     }
   }

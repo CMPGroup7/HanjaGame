@@ -15,6 +15,7 @@ float toDuckRatio = 1.25;
 
 boolean gameStart = false;
 boolean tutorial = false;
+boolean pause = false;
 
 SoundFile intro_sound;
 SoundFile click;
@@ -81,6 +82,11 @@ void draw() {
     duck.display();
     level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
   }
+ if(pause){
+   startScreen.pauseScreen(); //Glitchy
+    //noLoop();
+ }
+  
   if (duck.pos.y >= height*0.9) {
     ending.ending();
   }
@@ -94,11 +100,12 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  keyCheck(keyCode, false); //Resets values
+  if(!pause)
+    keyCheck(keyCode, false); //Resets values
 }
 
 boolean keyCheck(int k, boolean b) {
-  // println(k); //Uncomment to check keyCode
+ //  println(k); //Uncomment to check keyCode
   switch(k) {
 
   case UP:
@@ -113,8 +120,11 @@ boolean keyCheck(int k, boolean b) {
   case LEFT:
     return duck.left = b;
 
-  case 69:
+  case 69: //E key
     return duck.interacting = b;
+    
+ //case 8: //Backspace to pause //Uncomment for glitchy OurFilter. PLEASE FIX, I think manipulating an image is required. I'll ask the professor in the group as well
+  //  return pause = !pause;
 
   default :
     return b;

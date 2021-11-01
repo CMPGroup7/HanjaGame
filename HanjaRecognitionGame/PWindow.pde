@@ -1,14 +1,15 @@
 //class for popup window
 
 class PWindow extends PApplet {
- 
+
   PFont f ;
   PWindowText popText;
-  
+
   Table sprSheet;
   //String data
   float sXY;
   float pwX, pwY;
+  float mpwX, mpwY;
   float spacing;
   float repeatSpacing;
 
@@ -28,32 +29,32 @@ class PWindow extends PApplet {
     textFont(f);
     textAlign(LEFT, CENTER);
     popText = new PWindowText();
-  
-    pwX = level.fontSize;
+
+    pwX = level.fontSize*2;
     pwY = level.fontSize;
-   
+
+
+    mpwX = level.fontSize*2;
+    mpwY = level.fontSize *12;
   }
 
   void draw() {
     background(100);
     if (popText.index > -1) { //Checks so that PWindowText
-   
+
       textAlign(LEFT);
-      text(popText.expHanja+"    ["+ popText.expHangul+"]\n"+ popText.expDef+"\n\n\n"
-      +popText.subHanja.get(0)+"    " +popText.subHanjaDef.get(0)+"\n\n" 
-      +popText.subHanja.get(1)+"    " +popText.subHanjaDef.get(1), pwX, pwY);
- 
+      text("\n\n"+popText.expHanja+"    ["+ popText.expHangul+"]\n\n"+ popText.expDef, pwX, pwY);
+      text(popText.subHanja.get(0)+"    " +popText.subHanjaDef.get(0)+"\n\n"
+        +popText.subHanja.get(1)+"    " +popText.subHanjaDef.get(1), mpwX, mpwY);
     }
   }
 
   void popIt(int p_index) { //Takes index of row, being hanjaGroupIndex
 
     popText =  new PWindowText(sprSheet.getRow(p_index), p_index);  //Send TableRow and index of that row for storing in PWindowText object (popText)
-
   }
 
   void reset() { //Re-initializes popText so index is -1,
     popText = new PWindowText();
   }
-
 }

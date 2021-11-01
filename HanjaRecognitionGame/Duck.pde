@@ -33,15 +33,15 @@ class Duck {
     push();
     stroke(0);
     //head
-    fill(#F7FF1F );
+    fill(#D6D8CE );
     ellipse(pos.x, pos.y, duckW, duckH);
     //eyes
-    fill(0, 150, 150);
-    ellipse((pos.x - duckW *.3), (pos.y), (duckW *.1), (duckW*.15));
-    fill(0, 150, 150);
-    ellipse((pos.x + duckW *.3), (pos.y), (duckW *.1), (duckW*.15));
+    fill(#000000);
+    ellipse((pos.x - duckW *.2), (pos.y), (duckW *.1), (duckW*.1));
+    fill(#000000);
+    ellipse((pos.x + duckW *.2), (pos.y), (duckW *.1), (duckW*.1));
     //mouth
-    fill(#FFA512);
+    fill(#F4E367);
     ellipse((pos.x), (pos.y + duckW*.2), (duckW*.4), (duckW*.2));
     line ((pos.x - duckW*.2), (pos.y + duckW*.2), (pos.x + duckW*.2), (pos.y + duckW*.2));
     pop();

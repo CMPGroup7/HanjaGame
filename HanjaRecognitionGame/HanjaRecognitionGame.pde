@@ -141,7 +141,7 @@ boolean keyCheck(int k, boolean b) {
 }
 
 void mousePressed() {
-
+  //println(mouseX+","+mouseY);
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       startScreen.main_background = loadImage("main_image_start.png");
@@ -155,8 +155,8 @@ void mousePressed() {
     }
   }
   if (gameStart==false&&tutorial == true) {
-    if (mouseX>=266 && mouseX<=431 && mouseY >= 877 && mouseY<=947) {
-      startScreen.main_background = loadImage("tutorial_1_click.png");
+    if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
+      startScreen.main_background = loadImage("tutorial_click.png");
       startScreen.main_background.resize(width, 0);
     }
   }
@@ -177,7 +177,7 @@ void mouseReleased() {
     if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       click.play();
       tutorial = true;
-      startScreen.main_background = loadImage("tutorial_1.png");
+      startScreen.main_background = loadImage("tutorial.png");
       startScreen.main_background.resize(width, 0);
     }
   }
@@ -192,7 +192,7 @@ void mouseReleased() {
   }
 
   if (gameStart==false&&tutorial == true) {
-    if (mouseX>=266 && mouseX<=431 && mouseY >= 877 && mouseY<=947) {
+    if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
       click.play();
       tutorial = false;
       startScreen.main_background = loadImage("main_image.png");

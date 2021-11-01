@@ -31,13 +31,13 @@ class OurFilter {
       distC = sqrt((distX*distX)+(distY*distY));
 
       if(distC <= radius){
-      float r = pPi.pixels[p] >> 16 & 0xFF; //Shift to color you want to get
-      float g = pPi.pixels[p] >> 8 & 0xFF;
-      float b = pPi.pixels[p] & 0xFF;
-      float a = pPi.pixels[p] >> 24 & 0xFF;
+        float r = pPi.pixels[p] >> 16 & 0xFF; //Shift to color you want to get
+        float g = pPi.pixels[p] >> 8 & 0xFF;
+        float b = pPi.pixels[p] & 0xFF;
+        float a = pPi.pixels[p] >> 24 & 0xFF;
 
-      fill(color(r, g, b, a));
-      rect(x, y, cubeSize, cubeSize);
+        fill(color(r, g, b, a));
+        rect(x, y, cubeSize, cubeSize);
       }
     }
   }

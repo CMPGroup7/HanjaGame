@@ -2,6 +2,7 @@
 import processing.sound.*;
 
 PWindow win;
+String tablePath;
 float toH_ratio;
 float toW_ratio;
 int w, h;
@@ -11,7 +12,7 @@ float y = height/2;
 float wallW = 100;
 float wallH = 100;
 
-float toDuckRatio = 1.25;
+float toDuckRatio = 1.0;
 
 boolean gameStart = false;
 boolean tutorial = false;
@@ -51,6 +52,7 @@ void setup() {
 
   surface.setSize(w, h);
   background(100);
+  tablePath = this.dataPath("dict_file.tsv"); //Problem with file path. Had to use initialize here instead of PWindow. Something with inheritance from PApplet sets path to install path.
 
   level = new Level(w, h); //Adds Walldoor objects and combines them with the text from a TextHandler object. Must be initialized first since PWindow needs it.
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
@@ -73,58 +75,65 @@ void draw() {
   if (gameStart == false) { //Game state checks
     startScreen.startScreen();
   }
-  if (tutorial == true) {
-    startScreen.tutorial();
-  }
+  //if (tutorial == true) {
+  //  startScreen.tutorial();
+  //}
+
   if (gameStart == true) {
     //startScreen.setGameBackground();
     level.display();
     duck.display();
     level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
   }
- if(pause){
-   startScreen.pauseScreen(); //Glitchy
+  if (pause) {
+    startScreen.pauseScreen(); //Glitchy
     //noLoop();
- }
-  
+  }
+
   if (duck.pos.y >= height*0.9) {
     ending.ending();
   }
 }
 
 void keyPressed() {
-  //if(!duck.collided)
+
   keyCheck(keyCode, true); //Sets values
 
   gameStart = true;
 }
 
 void keyReleased() {
-  if(!pause)
+  if (!pause)
     keyCheck(keyCode, false); //Resets values
 }
 
 boolean keyCheck(int k, boolean b) {
- //  println(k); //Uncomment to check keyCode
+  //  println(k); //Uncomment to check keyCode
   switch(k) {
 
   case UP:
-    return duck.up = b;
+    if (!pause)
+      return duck.up = b;
 
   case DOWN:
-    return duck.down = b;
+    if (!pause)
+      return duck.down = b;
 
   case RIGHT:
-    return duck.right = b;
+    if (!pause)
+      return duck.right = b;
 
   case LEFT:
-    return duck.left = b;
+    if (!pause)
+      return duck.left = b;
 
   case 69: //E key
-    return duck.interacting = b;
-    
- //case 8: //Backspace to pause //Uncomment for glitchy OurFilter. PLEASE FIX, I think manipulating an image is required. I'll ask the professor in the group as well
-  //  return pause = !pause;
+    if (!pause)
+      return duck.interacting = b;
+
+  case 8: //Backspace to pause //Uncomment for glitchy OurFilter. PLEASE FIX, I think manipulating an image is required. I'll ask the professor in the group as well
+    if (b)
+      return pause = !pause;
 
   default :
     return b;
@@ -132,50 +141,62 @@ boolean keyCheck(int k, boolean b) {
 }
 
 void mousePressed() {
-  if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
-    if (gameStart==false&&tutorial == false) {
+
+  if (gameStart==false&&tutorial == false) {
+    if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       startScreen.main_background = loadImage("main_image_start.png");
+      startScreen.main_background.resize(width, 0);
     }
   }
-
-  if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
-    if (gameStart==false&&tutorial == false) {
+  if (gameStart==false&&tutorial == false) {
+    if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       startScreen.main_background = loadImage("main_image_tutorial.png");
+      startScreen.main_background.resize(width, 0);
     }
   }
-
-  if (mouseX>=266 && mouseX<=431 && mouseY >= 877 && mouseY<=947) {
-    if (gameStart==false&&tutorial == true) {
+  if (gameStart==false&&tutorial == true) {
+    if (mouseX>=266 && mouseX<=431 && mouseY >= 877 && mouseY<=947) {
       startScreen.main_background = loadImage("tutorial_1_click.png");
+      startScreen.main_background.resize(width, 0);
     }
   }
 }
+
 void mouseReleased() {
-  println(mouseX+","+mouseY);
-  if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
-    if (gameStart == false&&tutorial == false) {
+  //println(mouseX+","+mouseY);
+  if (gameStart == false&&tutorial == false) {
+    if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       click.play();
       gameStart = true;
       narration.play();
       narration.loop();
-      startScreen.main_background = loadImage("game_back.png");
+      startScreen.main_background = loadImage("main_image.png");
+      startScreen.main_background.resize(width, 0);
       win = new PWindow(); //Initialized last to make sure it can retrieve values
     }
-  }
-
-  if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
-    if (gameStart==false&&tutorial == false) {
+    if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       click.play();
       tutorial = true;
       startScreen.main_background = loadImage("tutorial_1.png");
+      startScreen.main_background.resize(width, 0);
     }
   }
 
-  if (mouseX>=266 && mouseX<=431 && mouseY >= 877 && mouseY<=947) {
-    if (gameStart==false&&tutorial == true) {
+  if (gameStart && pause && !tutorial) {
+    if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
+      pause = !pause;
+    }
+    if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
+      exit();
+    }
+  }
+
+  if (gameStart==false&&tutorial == true) {
+    if (mouseX>=266 && mouseX<=431 && mouseY >= 877 && mouseY<=947) {
       click.play();
       tutorial = false;
       startScreen.main_background = loadImage("main_image.png");
+      startScreen.main_background.resize(width, 0);
     }
   }
 }

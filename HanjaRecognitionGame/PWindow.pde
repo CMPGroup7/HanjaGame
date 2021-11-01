@@ -1,11 +1,11 @@
 //class for popup window
+
 class PWindow extends PApplet {
  
   PFont f ;
   PWindowText popText;
   
   Table sprSheet;
-  String tablePath;
   //String data
   float sXY;
   float pwX, pwY;
@@ -19,12 +19,10 @@ class PWindow extends PApplet {
 
   void settings() {
     size(640, 640);
-    
-    tablePath = "D:\\Documents\\ProcessingProjects\\HanjaGame\\HanjaRecognitionGame"; //Problem with file path. Had to use whole path
   }
 
   void setup() {
-    sprSheet = loadTable(tablePath+"\\dict_file.tsv", "header");
+    sprSheet = loadTable(tablePath, "header");
     background(100);
     f = createFont("굴림", 20);
     textFont(f);

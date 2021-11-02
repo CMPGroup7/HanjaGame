@@ -147,7 +147,7 @@ void draw() {
         game_sound.loop();
         //팝업윈도우 이제 열기
         win = null;
-        if(win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
+        if (win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
         win.popup_back = loadImage("popup_background.png");
         //나레이션 실행하기
         narration.cue(0);
@@ -237,7 +237,7 @@ boolean keyCheck(int k, boolean b) {
       return duck.interacting = b;
     }
 
-  case 8: //Backspace to pause //Uncomment for glitchy OurFilter. PLEASE FIX, I think manipulating an image is required. I'll ask the professor in the group as well
+  case 8: //Backspace to pause 
     if (b) {
       Screen.pause_img = loadImage("pause.png");
       if (pause) narration.play();
@@ -251,31 +251,39 @@ boolean keyCheck(int k, boolean b) {
 }
 
 void mousePressed() {
-  //println(mouseX+","+mouseY);
+  //intro page -> game start
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       Screen.main_background = loadImage("main_image_start.png");
       Screen.main_background.resize(width, 0);
     }
   }
+  
+  //intro page -> tutorial
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       Screen.main_background = loadImage("main_image_tutorial.png");
       Screen.main_background.resize(width, 0);
     }
   }
+  
+  //tutorial -> intro page
   if (gameStart==false&&tutorial == true) {
     if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
       Screen.main_background = loadImage("tutorial_click.png");
       Screen.main_background.resize(width, 0);
     }
   }
+  
+  //game end -> intro page
   if (end==true&&gameStart==true) {
     if (mouseX>=256 && mouseX<=451 && mouseY >= 656 && mouseY<=714) {
       Screen.main_background = loadImage("ending_click.png");
       Screen.main_background.resize(width, 0);
     }
   }
+  
+  //pause image
   if (pause==true) {
     if (mouseX>=116 && mouseX<=350 && mouseY >= 407 && mouseY<=465) {
       Screen.pause_img = loadImage("pause_continue.png");
@@ -287,18 +295,18 @@ void mousePressed() {
 }
 
 void mouseReleased() {
-  //println(mouseX+","+mouseY);
+  //intro page -> game start
   if (gameStart == false&&tutorial == false) {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       click.play();
       savedTime = millis();
       gameStart = true;
-      //narration.play();
-      //narration.loop();
       intro_sound.stop();
       Screen.main_background = loadImage("game_back.png");
       Screen.main_background.resize(width, 0);
     }
+
+    //intro page -> tutorial
     if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       click.play();
       tutorial = true;
@@ -307,15 +315,7 @@ void mouseReleased() {
     }
   }
 
-  //if (gameStart && pause && !tutorial) {
-  //  if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
-  //    pause = !pause;
-  //  }
-  //  if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
-  //    exit();
-  //  }
-  //}
-
+  //tutorial -> intro page
   if (gameStart==false&&tutorial == true) {
     if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
       click.play();
@@ -324,6 +324,8 @@ void mouseReleased() {
       Screen.main_background.resize(width, 0);
     }
   }
+  
+  //game end -> intro page
   if (end==true&&gameStart==true) {
     if (mouseX>=256 && mouseX<=451 && mouseY >= 656 && mouseY<=714) {
       click.play();
@@ -333,6 +335,7 @@ void mouseReleased() {
     }
   }
 
+  //pause image
   if (pause==true) {
     if (mouseX>=116 && mouseX<=350 && mouseY >= 407 && mouseY<=465) {
       click.play();
@@ -347,7 +350,6 @@ void mouseReleased() {
       resetup();
       Screen.main_background = loadImage("main_image.png");
       Screen.main_background.resize(width, 0);
-      
     }
   }
 }

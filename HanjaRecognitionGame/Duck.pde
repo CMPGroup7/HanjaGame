@@ -22,13 +22,13 @@ class Duck {
 
   void display() {
 
-    if (up)
+    if (up&&pos.y>=0)
       pos.y -=speed;
-    if (down)
+    if (down&& pos.y<=height)
       pos.y +=speed;
-    if (left)
+    if (left&&pos.x>=0)
       pos.x -=speed;
-    if (right)
+    if (right&&pos.x<=width)
       pos.x +=speed;
 
     push();

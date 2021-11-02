@@ -10,6 +10,7 @@ class Duck {
   boolean collided = false;
   boolean pass = true;
   boolean interacting = false;
+  
 
   Duck(float pW) {
     pos = new PVector(width / 2, 10);
@@ -55,8 +56,10 @@ class Duck {
     if(interacting && collided && pass)
       return 0.0f;
       
-    else if(interacting && collided && !pass) //If interacted with while collided and not a passable object.
+    else if(interacting && collided && !pass){ //If interacted with while collided and not a passable object.
+      restart = true;
       return pos.y = lerp(pos.y, 10, 0.8);  //Severe punishment for cheating. Fly you fool!
+    }
    
     else if(!interacting && collided)    
         return pos.y -= radius/2; //Bounce

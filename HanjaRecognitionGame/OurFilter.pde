@@ -8,7 +8,7 @@ class OurFilter {
   float totalBr = 0;
 
   float distX, distY, distC;
-  float radius = 180;
+  float radius = 60;
 
   OurFilter(){
 
@@ -19,7 +19,7 @@ class OurFilter {
     
     for (int i = 0; i < pPi.pixels.length; i++) {
       
-      float cubeSize = random(10, 20);
+      float cubeSize = random(5, 10);
       //int p = int(random(pPi.pixels.length));
       //float x = p%int(width);
       int x = int(random(pPi.width));

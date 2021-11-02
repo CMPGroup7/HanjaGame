@@ -5,6 +5,7 @@ class Interface {
   PImage ready;
   PImage go;
   PImage pause_img;
+  PImage filter_img;
   OurFilter filter;
 
   PVector[] buttonPos;
@@ -17,6 +18,8 @@ class Interface {
     main_background = loadImage("main_image.png");
     main_background.resize(width, 0);
     filter = new OurFilter();
+    filter_img = loadImage("filter.png");
+    filter_img.resize(width, height);
     pause_img = loadImage("pause.png");
     ready = loadImage("ready.png");
     go = loadImage("go.png");
@@ -45,9 +48,10 @@ class Interface {
 
   void pauseScreen() {
     //background(100);
+    
+    filter.maskPixel(filter_img, mouseX, mouseY);
     imageMode(CENTER);
     image(pause_img, width/2, height/2);
-    
     
   }
 

@@ -13,8 +13,8 @@ class Walldoor {
   float dim_W = 10; //Rect width
   float dim_H = 10; //Rect height
 
-  color fillC = 0; //Rect color
-  int strokeC = 0; //Rect border color
+  color fillC = 100; //Rect color
+  int strokeC = 100; //Rect border color
   color fontColor = 255;
   int fontSize;
   int colorShift = 0;
@@ -37,14 +37,14 @@ class Walldoor {
     //charArray = new char[1];
     hangul = pHang;
     hanja = pHanj;
-
+    
     rectObj = createShape(RECT, x+4, y-10, dim_W, dim_H);
   }
 
   void display() {
     push();
-    rectObj.setStroke(strokeC);
-    rectObj.setFill(fillC);
+    noFill();
+    rectObj.setFill(color(100,100,100,0));
     shape(rectObj);
     pop();
 

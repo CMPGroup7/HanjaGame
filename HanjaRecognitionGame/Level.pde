@@ -68,7 +68,7 @@ class Level {
     }
   }
 
-
+  
   void display() {
     textFont(f);
     score = totCol;

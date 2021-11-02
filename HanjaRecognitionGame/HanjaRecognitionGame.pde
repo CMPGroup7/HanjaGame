@@ -14,22 +14,37 @@ float wallH = 100;
 
 float toDuckRatio = 1.0;
 
-boolean gameStart = false;
-boolean tutorial = false;
-boolean pause = false;
-boolean end = false;
+boolean gameStart;
+boolean tutorial;
+boolean pause;
+boolean end;
+boolean ready;
+boolean startGameEffect;
+
+int savedTime;
+int passedTime;
+
 
 SoundFile intro_sound;
+SoundFile game_sound;
 SoundFile click;
 SoundFile ring;
 SoundFile narration;
 SoundFile ending_sound;
+SoundFile readygo;
 
 Duck duck;
 Level level;
 Interface Screen;
 
 void setup() {
+
+  gameStart = false;
+  tutorial = false;
+  pause = false;
+  end = false;
+  ready = false;
+  startGameEffect = false;
 
   size(100, 720);
   w = width;
@@ -52,23 +67,48 @@ void setup() {
   }
 
   surface.setSize(w, h);
-  background(100);
+  
   tablePath = this.dataPath("dict_file.tsv"); //Problem with file path. Had to use initialize here instead of PWindow. Something with inheritance from PApplet sets path to install path.
 
   level = new Level(w, h); //Adds Walldoor objects and combines them with the text from a TextHandler object. Must be initialized first since PWindow needs it.
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
   Screen = new Interface();
-  //ending = new Interface();
 
   intro_sound = new SoundFile(this, "main_bgm.wav");
   intro_sound.loop();
+  game_sound = new SoundFile(this, "game_bgm.wav");
   narration = new SoundFile(this, "narration.wav");
   ending_sound = new SoundFile(this, "ending_bgm.wav");
 
   click = new SoundFile(this, "click.wav");
   ring  = new SoundFile(this, "ring.wav");
+  readygo = new SoundFile(this, "ready_go.wav");
+
+  savedTime = millis();
+}
+
+void resetup() {
+
+  gameStart = false;
+  tutorial = false;
+  pause = false;
+  end = false;
+  ready = false;
+  startGameEffect = false;
+
+
+  tablePath = this.dataPath("dict_file.tsv"); //Problem with file path. Had to use initialize here instead of PWindow. Something with inheritance from PApplet sets path to install path.
   
+  level=null;
+  duck = null;
+  Screen = null;
   
+  level = new Level(w,h);
+  duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
+  Screen = new Interface();
+
+  intro_sound.loop();
+  savedTime = millis();
 }
 
 void draw() {
@@ -84,9 +124,31 @@ void draw() {
 
   if (gameStart == true) {
     Screen.setGameBackground();
-    level.display();
-    duck.display();
-    level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
+    if (ready == false) {
+      readygo.play();
+      ready = true;
+    }
+    passedTime = millis()-savedTime;
+    //println(passedTime+","+savedTime);
+    if (passedTime<3200) {
+      Screen.setReady();
+    } else if (passedTime<4700) {
+      Screen.setGo();
+    } else {
+      if (startGameEffect==false) {
+        //게임 사운드 스타트
+        game_sound.loop();
+        //팝업윈도우 이제 열기
+        if (win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
+        win.popup_back = loadImage("popup_background.png");
+        //나레이션 실행하기
+        narration.play();
+        startGameEffect = true;
+      }
+      level.display();
+      duck.display();
+      level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
+    }
   }
   if (pause) {
     Screen.pauseScreen(); //Glitchy
@@ -94,9 +156,10 @@ void draw() {
   }
 
   if (gameStart==true && duck.pos.y >= height*0.9) {
-    if(end==false){
+    if (end==false) {
       end= true;
       Screen.main_background = loadImage("ending.png");
+      game_sound.stop();
     }
     Screen.ending();
   }
@@ -173,6 +236,9 @@ void mousePressed() {
       Screen.main_background.resize(width, 0);
     }
   }
+  if(pause==true){
+    
+  }
 }
 
 void mouseReleased() {
@@ -181,12 +247,11 @@ void mouseReleased() {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       click.play();
       gameStart = true;
-      narration.play();
+      //narration.play();
       //narration.loop();
+      intro_sound.stop();
       Screen.main_background = loadImage("game_back.png");
       Screen.main_background.resize(width, 0);
-      if(win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
-      win.popup_back = loadImage("popup_background.png");
     }
     if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       click.play();
@@ -196,14 +261,14 @@ void mouseReleased() {
     }
   }
 
-  if (gameStart && pause && !tutorial) {
-    if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
-      pause = !pause;
-    }
-    if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
-      exit();
-    }
-  }
+  //if (gameStart && pause && !tutorial) {
+  //  if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
+  //    pause = !pause;
+  //  }
+  //  if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
+  //    exit();
+  //  }
+  //}
 
   if (gameStart==false&&tutorial == true) {
     if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
@@ -216,11 +281,12 @@ void mouseReleased() {
   if (end==true&&gameStart==true) {
     if (mouseX>=256 && mouseX<=451 && mouseY >= 656 && mouseY<=714) {
       click.play();
-      intro_sound.loop();
-      duck.pos = new PVector(width / 2, 10);
       end =false;
       gameStart=false;
       tutorial = false;
+      ready = false;
+      startGameEffect = false;
+      resetup();
       Screen.main_background = loadImage("main_image.png");
       Screen.main_background.resize(width, 0);
     }

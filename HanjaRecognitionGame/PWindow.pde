@@ -4,6 +4,7 @@ class PWindow extends PApplet {
 
   PFont f ;
   PWindowText popText;
+  PImage popup_back;
 
   Table sprSheet;
   //String data
@@ -16,10 +17,12 @@ class PWindow extends PApplet {
   PWindow() {
     super();
     PApplet.runSketch(new String[] {this.getClass().getSimpleName()}, this);
+   
   }
 
   void settings() {
     size(640, 640);
+    
   }
 
   void setup() {
@@ -39,7 +42,10 @@ class PWindow extends PApplet {
   }
 
   void draw() {
-    background(100);
+    background(200);
+    this.imageMode(CENTER);
+    this.image(popup_back, width/2, height/2);
+    
     if (popText.index > -1) { //Checks so that PWindowText
 
       textAlign(LEFT);

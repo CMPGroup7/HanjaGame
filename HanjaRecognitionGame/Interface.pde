@@ -24,7 +24,7 @@ class Interface {
     imageMode(CENTER);
     image(main_background, width/2, height/2);
     f1 = createFont("굴림", 50 );
-    f2 = createFont("굴림", 20 );
+    f2 = createFont("굴림", 30 );
   }
 
   void pauseScreen() {
@@ -54,9 +54,12 @@ class Interface {
     intro_sound.stop();
     //  ending_sound.play();    the sound cracks on my computer for some reason..
 
+    imageMode(CENTER);
+    image(main_background, width/2, height/2);
+
     textAlign(CENTER);
     textFont(f2);
-    text(level.score+"개의 한자어를 찾았습니다!"+"\n\n\n\n\n\n\n製作者: 김경진, 김예진 & 노리 다빛", width/2, height/2);
+    text(level.score+"개의 한자어를 찾았습니다!",width/2, height/2-10);
   }
 
   void tutorial() {

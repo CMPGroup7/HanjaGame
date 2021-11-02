@@ -14,7 +14,7 @@ class Walldoor {
   float dim_H = 10; //Rect height
 
   color fillC = 0; //Rect color
-  int strokeC = 100; //Rect border color
+  int strokeC = 0; //Rect border color
   color fontColor = 255;
   int fontSize;
   int colorShift = 0;
@@ -27,7 +27,7 @@ class Walldoor {
   //Takes a hangul char, hanja char, x+y positions, font size,  individual index in hanjaContainer/ text, hanjaGroupIndex to check which word, and a door boolean
   Walldoor(char pHang, char pHanj, float pX, float pY, int pFontSize, int index, int grpIndex, boolean bHanja) { //Constructor for single syllable Walldoor
 
-    fontSize = pFontSize;
+    fontSize = pFontSize-10;
     x = pX;
     y = pY;
     indices = new int[]{index, grpIndex};
@@ -38,7 +38,7 @@ class Walldoor {
     hangul = pHang;
     hanja = pHanj;
 
-    rectObj = createShape(RECT, x, y, dim_W, dim_H);
+    rectObj = createShape(RECT, x+4, y-10, dim_W, dim_H);
   }
 
   void display() {

@@ -17,6 +17,7 @@ float toDuckRatio = 1.0;
 boolean gameStart = false;
 boolean tutorial = false;
 boolean pause = false;
+boolean end = false;
 
 SoundFile intro_sound;
 SoundFile click;
@@ -26,7 +27,7 @@ SoundFile ending_sound;
 
 Duck duck;
 Level level;
-Interface startScreen, ending;
+Interface Screen;
 
 void setup() {
 
@@ -56,8 +57,8 @@ void setup() {
 
   level = new Level(w, h); //Adds Walldoor objects and combines them with the text from a TextHandler object. Must be initialized first since PWindow needs it.
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
-  startScreen = new Interface();
-  ending = new Interface();
+  Screen = new Interface();
+  //ending = new Interface();
 
   intro_sound = new SoundFile(this, "main_bgm.wav");
   intro_sound.loop();
@@ -66,6 +67,8 @@ void setup() {
 
   click = new SoundFile(this, "click.wav");
   ring  = new SoundFile(this, "ring.wav");
+  
+  
 }
 
 void draw() {
@@ -73,25 +76,29 @@ void draw() {
   background(100);
 
   if (gameStart == false) { //Game state checks
-    startScreen.startScreen();
+    Screen.startScreen();
   }
   //if (tutorial == true) {
   //  startScreen.tutorial();
   //}
 
   if (gameStart == true) {
-    //startScreen.setGameBackground();
+    Screen.setGameBackground();
     level.display();
     duck.display();
     level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
   }
   if (pause) {
-    startScreen.pauseScreen(); //Glitchy
+    Screen.pauseScreen(); //Glitchy
     //noLoop();
   }
 
-  if (duck.pos.y >= height*0.9) {
-    ending.ending();
+  if (gameStart==true && duck.pos.y >= height*0.9) {
+    if(end==false){
+      end= true;
+      Screen.main_background = loadImage("ending.png");
+    }
+    Screen.ending();
   }
 }
 
@@ -141,23 +148,29 @@ boolean keyCheck(int k, boolean b) {
 }
 
 void mousePressed() {
-  //println(mouseX+","+mouseY);
+  println(mouseX+","+mouseY);
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
-      startScreen.main_background = loadImage("main_image_start.png");
-      startScreen.main_background.resize(width, 0);
+      Screen.main_background = loadImage("main_image_start.png");
+      Screen.main_background.resize(width, 0);
     }
   }
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
-      startScreen.main_background = loadImage("main_image_tutorial.png");
-      startScreen.main_background.resize(width, 0);
+      Screen.main_background = loadImage("main_image_tutorial.png");
+      Screen.main_background.resize(width, 0);
     }
   }
   if (gameStart==false&&tutorial == true) {
     if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
-      startScreen.main_background = loadImage("tutorial_click.png");
-      startScreen.main_background.resize(width, 0);
+      Screen.main_background = loadImage("tutorial_click.png");
+      Screen.main_background.resize(width, 0);
+    }
+  }
+  if (end==true&&gameStart==true) {
+    if (mouseX>=256 && mouseX<=451 && mouseY >= 656 && mouseY<=714) {
+      Screen.main_background = loadImage("ending_click.png");
+      Screen.main_background.resize(width, 0);
     }
   }
 }
@@ -169,16 +182,17 @@ void mouseReleased() {
       click.play();
       gameStart = true;
       narration.play();
-      narration.loop();
-      startScreen.main_background = loadImage("main_image.png");
-      startScreen.main_background.resize(width, 0);
-      win = new PWindow(); //Initialized last to make sure it can retrieve values
+      //narration.loop();
+      Screen.main_background = loadImage("game_back.png");
+      Screen.main_background.resize(width, 0);
+      if(win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
+      win.popup_back = loadImage("popup_background.png");
     }
     if (mouseX>=494 && mouseX<=667 && mouseY >= 507 && mouseY<=588) {
       click.play();
       tutorial = true;
-      startScreen.main_background = loadImage("tutorial.png");
-      startScreen.main_background.resize(width, 0);
+      Screen.main_background = loadImage("tutorial.png");
+      Screen.main_background.resize(width, 0);
     }
   }
 
@@ -195,8 +209,20 @@ void mouseReleased() {
     if (mouseX>=232 && mouseX<=466 && mouseY >= 876 && mouseY<=947) {
       click.play();
       tutorial = false;
-      startScreen.main_background = loadImage("main_image.png");
-      startScreen.main_background.resize(width, 0);
+      Screen.main_background = loadImage("main_image.png");
+      Screen.main_background.resize(width, 0);
+    }
+  }
+  if (end==true&&gameStart==true) {
+    if (mouseX>=256 && mouseX<=451 && mouseY >= 656 && mouseY<=714) {
+      click.play();
+      intro_sound.loop();
+      duck.pos = new PVector(width / 2, 10);
+      end =false;
+      gameStart=false;
+      tutorial = false;
+      Screen.main_background = loadImage("main_image.png");
+      Screen.main_background.resize(width, 0);
     }
   }
 }

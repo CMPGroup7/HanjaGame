@@ -66,9 +66,6 @@ class Interface {
   void ending() {
     background(100);
     fill(255);
-    narration.stop();
-    intro_sound.stop();
-    //  ending_sound.play();    the sound cracks on my computer for some reason..
 
     imageMode(CENTER);
     image(main_background, width/2, height/2);

@@ -14,15 +14,14 @@ class PWindow extends PApplet {
   float spacing;
   float repeatSpacing;
 
+
   PWindow() {
     super();
     PApplet.runSketch(new String[] {this.getClass().getSimpleName()}, this);
-   
   }
 
   void settings() {
     size(640, 640);
-    
   }
 
   void setup() {
@@ -42,12 +41,14 @@ class PWindow extends PApplet {
   }
 
   void draw() {
-    background(200);
-    this.imageMode(CENTER);
-    this.image(popup_back, width/2, height/2);
+    background(#004221);
     
-    if (popText.index > -1) { //Checks so that PWindowText
+//      imageMode(CENTER);
+//      image(popup_back, width/2, height/2);
 
+    if (popText.index > -1) { //Checks so that PWindowText
+      imageMode(CENTER);
+      image(popup_back, width/2, height/2);
       textAlign(LEFT);
       text("\n\n"+popText.expHanja+"    ["+ popText.expHangul+"]\n\n"+ popText.expDef, pwX, pwY);
       text(popText.subHanja.get(0)+"    " +popText.subHanjaDef.get(0)+"\n\n"
@@ -63,4 +64,9 @@ class PWindow extends PApplet {
   void reset() { //Re-initializes popText so index is -1,
     popText = new PWindowText();
   }
+
+  void closeWindow() {
+    Frame frame = ( (SmoothCanvas) ((PSurfaceAWT)surface).getNative()).getFrame();
+    frame.dispose();
+  };
 }

@@ -1,5 +1,8 @@
 //v1.5 2021-10-25
 import processing.sound.*;
+import java.awt.Frame;
+import processing.awt.PSurfaceAWT;
+import processing.awt.PSurfaceAWT.SmoothCanvas;
 
 PWindow win;
 String tablePath;
@@ -109,13 +112,12 @@ void resetup() {
   level=null;
   duck = null;
   Screen = null;
-  
+
   level = new Level(w, h);
   duck = new Duck(level.fontSize*toDuckRatio); //Calls Duck to be constructed with pW in width (s1 = pW)
   Screen = new Interface();
 
   intro_sound.loop();
-  
 }
 
 void draw() {
@@ -144,7 +146,8 @@ void draw() {
         //게임 사운드 스타트
         game_sound.loop();
         //팝업윈도우 이제 열기
-        if (win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
+        win = null;
+        if(win==null) win = new PWindow(); //Initialized last to make sure it can retrieve values
         win.popup_back = loadImage("popup_background.png");
         //나레이션 실행하기
         narration.cue(0);
@@ -155,7 +158,6 @@ void draw() {
       duck.display();
       level.collision(); //Collision is detected in the Walldoor objects which are handled by the Level class
     }
-   
   }
   if (pause) {
     Screen.pauseScreen(); //Glitchy
@@ -167,12 +169,17 @@ void draw() {
       end= true;
       Screen.main_background = loadImage("ending.png");
       game_sound.stop();
+      narration.stop();
+      intro_sound.stop();
+      ending_sound.play();
+      //popup window도 사라지기
+      win.closeWindow();
     }
     Screen.ending();
   }
-  
-  if(restart){
-    if(!goTop.isPlaying()){
+
+  if (restart) {
+    if (!goTop.isPlaying()) {
       goTop.play();
     }
     restart = false;
@@ -214,27 +221,27 @@ boolean keyCheck(int k, boolean b) {
   case 69: //E key
     if (!pause)
       return duck.interacting = b;
-      
+
   case 78: //N key to restart narration
-    if(pause==false){
-      if(!narration.isPlaying()){
+    if (pause==false) {
+      if (!narration.isPlaying()) {
         narration.cue(0);
         narration.play();
       }
       return duck.interacting = b;
-    } 
-    
+    }
+
   case 77: //M key to mute narration
-    if(!pause){
+    if (!pause) {
       narration.stop();
       return duck.interacting = b;
-    } 
-    
+    }
+
   case 8: //Backspace to pause //Uncomment for glitchy OurFilter. PLEASE FIX, I think manipulating an image is required. I'll ask the professor in the group as well
-    if (b){
+    if (b) {
       Screen.pause_img = loadImage("pause.png");
-      if(pause) narration.play();
-      if(!pause) narration.pause();
+      if (pause) narration.play();
+      if (!pause) narration.pause();
       return pause = !pause;
     }
 
@@ -334,11 +341,13 @@ void mouseReleased() {
     }
     if (mouseX>=113 && mouseX<=348 && mouseY >= 525 && mouseY<=581) {
       click.play();
+      win.closeWindow();
       game_sound.stop();
       narration.stop();
       resetup();
       Screen.main_background = loadImage("main_image.png");
       Screen.main_background.resize(width, 0);
+      
     }
   }
 }

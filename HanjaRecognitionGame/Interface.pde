@@ -48,14 +48,7 @@ class Interface {
     imageMode(CENTER);
     image(pause_img, width/2, height/2);
     
-    //filter.maskPixel(main_background, mouseX, mouseY);
-    //fill(0);
-    //rect(buttonPos[0].x, buttonPos[0].y, buttonDim[0].x, buttonDim[0].y);
-    //rect(buttonPos[1].x, buttonPos[1].y, buttonDim[1].x, buttonDim[1].y);
-    //fill(255);
-    //textAlign(CENTER);
-    //text("CONTINUE?", buttonPos[0].x, buttonPos[0].y);
-    //text("QUIT?", buttonPos[1].x, buttonPos[1].y); //Manipulate input image or video data in some way (see Graphics programming and Video programming lectures)
+    
   }
 
   void setGameBackground() {

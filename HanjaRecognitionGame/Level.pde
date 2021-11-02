@@ -6,12 +6,13 @@ class Level {
   // initLinePos-1의 값만큼 위의 공백을 만들고, spaceW 값 만큼 좌우 공백을 만들어 텍스트를 보여줄 범위를 지정한다.
   //   지정한 범위 내에서 텍스트를 보여준다.
   public int fontSize = 30; //하나의 글자가 30*30을 차지한다. The size of a single syllabl is fontSize*fontSize.
-  public int initLinePos = 2; // 텍스트 출력 전 위로 몇 칸 띄우는지
+  public int initLinePos = 3; // 텍스트 출력 전 위로 몇 칸 띄우는지
   public int spaceW = 1; // 텍스트 출력 전 앞뒤로 몇 칸 띄우는지 Tab is replaced by spaces
   public int lineSpacing = fontSize/10; // line 사이의 간격 +1
   int cols;
   int rows;
   PFont f;
+  PFont f2;
   public int score = 0;
   public int totalHanja;
   int totCol = 0;
@@ -19,6 +20,7 @@ class Level {
 
   Level(int w, int h) {
     f = createFont("굴림", fontSize);
+    f2 = createFont("굴림", 25);
     textObjs = new TextHandler();
     walldoorObjs = new ArrayList<Walldoor>();
 
@@ -70,6 +72,7 @@ class Level {
 
   
   void display() {
+    
     textFont(f);
     score = totCol;
     totCol = 0;
@@ -79,15 +82,10 @@ class Level {
         totCol++;
       }
     }
-    //score += totCol; //Forever and ever
-    rectMode(CENTER);
-    noStroke();
-    fill(255);
-    textAlign(CENTER);
-    rect(width/2, height*0.9, width, 5);//finish line
-    text("도착 到着", width/2, height*0.93);
+
+    textFont(f2);
     textAlign(RIGHT);
-    text("Found Hanja: "+score+"/"+totalHanja+"", width, height*0.98);
+    text(score+"/"+totalHanja+"", width-25, height*0.985);
     
   }
 

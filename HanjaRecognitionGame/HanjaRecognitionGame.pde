@@ -251,7 +251,7 @@ boolean keyCheck(int k, boolean b) {
 }
 
 void mousePressed() {
-  println(mouseX+","+mouseY);
+  //println(mouseX+","+mouseY);
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {
       Screen.main_background = loadImage("main_image_start.png");

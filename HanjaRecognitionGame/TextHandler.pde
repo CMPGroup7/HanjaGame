@@ -1,3 +1,10 @@
+/*
+ TextHandler : Class for parsing hanja words in the whole text, and store each element in proper way.
+ - Get whole text from page1.txt file and split each syllables and add it in to text.
+ - Remove parentheses and hanja words from the text and store them in the hanjaContainer space for the corresponding word.
+*/
+
+
 class TextHandler {
 
   int cols, rows;
@@ -46,8 +53,7 @@ class TextHandler {
     int stEndDiff = 0;
     for (int i = 0; i<text.size(); i++) {
 
-      if (text.get(i) == '(') {
-
+      if (text.get(i) == '(') { //point of each hanja words start
         isHanja = true;
         indexStart= i;
         //println(indexStart);
@@ -56,16 +62,13 @@ class TextHandler {
         hanjaGroupIndex.remove(i);
         wholeLen--;
         i--;
-      } else if (text.get(i) == ')') {
+      } else if (text.get(i) == ')') { //point of each hanja words end
 
         isHanja = false;
         indexEnd = i;
         stEndDiff = indexEnd - indexStart;
-        // text.remove(i);
-        // hanjaContainer.remove(i);
-        //  wholeLen--;
-        // i--;
-       
+
+
         for (int j = indexStart; j<=indexEnd; j++) {
           hanjaContainer.set(j, text.get(j));
           hanjaGroupIndex.set(j, hanjaCnt);
@@ -88,7 +91,7 @@ class TextHandler {
         //Adds as one whole word to hanjaCnt
       }
     }
-    
+
     //Test for checking that hanjaCnt is correct and that all Hanja/syllables for the Sino-korean words were added
     int countSyllables = 0;
     println(hanjaContainer.size());
@@ -99,9 +102,5 @@ class TextHandler {
     println(countSyllables);
     println(hanjaCnt);
     println(text.size());
-   
-    //for (int i = 0; i<text.size(); i++) {
-    //  println(text.get(i));
-    //}
   }
 }

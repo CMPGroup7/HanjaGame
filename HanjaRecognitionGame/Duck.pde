@@ -47,7 +47,7 @@ class Duck {
   }
 
   float collision(Walldoor pWd) { // Takes a Walldoor.class and uses it to check its collision, and returns bounce value
-    boolean[] collisionPass =  pWd.collision(pos.x, pos.y, radius, interacting);//collide character
+    boolean[] collisionPass =  pWd.collision(pos.x, pos.y, radius, interacting);
     collided = collisionPass[0];
     pass = collisionPass[1];
     

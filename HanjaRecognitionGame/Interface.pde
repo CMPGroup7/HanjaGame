@@ -60,7 +60,7 @@ class Interface {
     image(main_background, width/2, height/2);
   }
 
-  void ending() {
+  void ending() {//shows the number of hanja
     background(100);
     fill(255);
 

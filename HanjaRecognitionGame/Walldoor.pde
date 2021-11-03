@@ -6,7 +6,7 @@ class Walldoor {
   boolean collided = false; //Variable for storing and checking collision
   boolean interaction = false;
 
-  int[] indices; //Individual and group index for checking where in TextHandler.text ArrayList it was retrieved from
+  int[] indices; //Individual[0] and group[1] indices for checking where in TextHandler's text ArrayList it was retrieved from
 
   float x = 0;
   float y = 0; // x and y positions
@@ -15,11 +15,11 @@ class Walldoor {
 
   color fillC = 100; //Rect color
   int strokeC = 100; //Rect border color
-  color fontColor = 255;
+  color fontColor = 255; 
   int fontSize;
-  int colorShift = 0;
+  int colorShift = 0; //For making color changes
 
-  PShape rectObj;
+  PShape rectObj; 
   char[][] hangulHanja;
   char hangul;
   char hanja;
@@ -89,7 +89,7 @@ class Walldoor {
     }
   }
 
-  boolean[] collision(float pX, float pY, float pRadius, boolean p_interaction) { //Also added collision to Duck to check via Walldoor
+  boolean[] collision(float pX, float pY, float pRadius, boolean p_interaction) { //Duck retrieves collided and door value from Walldoor object's returned array values
 
     boolean[] collisionPass = {collided, door, interaction};
     float checkX = pX;
@@ -104,7 +104,7 @@ class Walldoor {
     } else if (collided && !interaction)
       collided = !collided;
       
-
+  //Actual collision check
     if (pX < x)              checkX = x;
     else if (pX > x+dim_W)   checkX = x + dim_W;
     if (pY < y)              checkY = y;

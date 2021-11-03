@@ -4,19 +4,16 @@ import java.awt.Frame;
 import processing.awt.PSurfaceAWT;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 
-PWindow win;
-String tablePath;
-float toH_ratio;
-float toW_ratio;
-int w, h;
+// Some variables need to be initialized in the main class/sketch file for them to work properly
+PWindow win; //Pop-window
+String tablePath; // To get the correct directory of the dict_file.tsv we called dataPath() and stored it as a String in main
+float toH_ratio; // Size ratio of an A4 from width to Height
+float toW_ratio; // Size ratio of an A4 from height to Width
+int w, h; //variables for setting new width and height of screen
 
-float x = width/2;
-float y = height/2;
-float wallW = 100;
-float wallH = 100;
+float toDuckRatio = 1.0; //font to Duck ratio 
 
-float toDuckRatio = 1.0;
-
+//Boolean variables for checking game state
 boolean gameStart;
 boolean tutorial;
 boolean pause;
@@ -25,24 +22,23 @@ boolean ready;
 boolean startGameEffect;
 boolean restart;
 
+//Variables for checking time. Used for sound effects
 int savedTime;
 int passedTime;
 
-
+//Different soundfiles used as effects
 SoundFile intro_sound;
 SoundFile game_sound;
 SoundFile click;
 SoundFile ring;
 SoundFile narration;
 SoundFile ending_sound;
-SoundFile readygo;
-SoundFile goTop;
+SoundFile readygo; 
+SoundFile goTop; //If you get sent back to the top
 
-Duck duck;
-Level level;
-Interface Screen;
-
-
+Duck duck; //Player pawn
+Level level; //Level object containing all Walldoors with corresponding information from a TextHandler object
+Interface Screen; //GUI
 
 void setup() {
 
@@ -59,8 +55,8 @@ void setup() {
   h = height;
 
   //Use one of the two
-  toW_ratio = 0.70708; //Height:Width
-  toH_ratio = 1.4142; //Width:Height
+  toW_ratio = 0.70708; //A4 Height:Width
+  toH_ratio = 1.4142; //A4 Width:Height
 
 
   if (displayHeight > 1000) {//Checks display size and resizes if necessary
@@ -74,7 +70,7 @@ void setup() {
     w = int(h*toW_ratio);
   }
 
-  surface.setSize(w, h);
+  surface.setSize(w, h); //Set size
 
   tablePath = this.dataPath("dict_file.tsv"); //Problem with file path. Had to use initialize here instead of PWindow. Something with inheritance from PApplet sets path to install path.
 
@@ -96,7 +92,7 @@ void setup() {
   savedTime = millis();
 }
 
-void resetup() {
+void resetup() { //When you finish the game and restart (Go Home), the game resets some variables
 
   gameStart = false;
   tutorial = false;
@@ -106,8 +102,8 @@ void resetup() {
   startGameEffect = false;
   restart = false;
 
-
-  tablePath = this.dataPath("dict_file.tsv"); //Problem with file path. Had to use initialize here instead of PWindow. Something with inheritance from PApplet sets path to install path.
+//Problem with file path. Had to initialize here instead of PWindow. Maybe something with inheritance from PApplet sets the data path to same as the install path.
+  tablePath = this.dataPath("dict_file.tsv"); 
 
   level=null;
   duck = null;
@@ -133,8 +129,8 @@ void draw() {
 
     passedTime = millis()-savedTime;
 
-    if (passedTime<2500) {
-      if (ready == false) {
+    if (passedTime<2500) { 
+      if (ready == false) { //Plays sound when ready and time is right
         readygo.play();
         ready = true;
       }
@@ -160,11 +156,10 @@ void draw() {
     }
   }
   if (pause) {
-    Screen.pauseScreen(); //Glitchy
-    //noLoop();
+    Screen.pauseScreen(); 
   }
 
-  if (gameStart==true && duck.pos.y >= height*0.9) {
+  if (gameStart==true && duck.pos.y >= height*0.9) { // Finishing line. After this the game let's you restart or quit the game
     if (end==false) {
       end= true;
       Screen.main_background = loadImage("ending.png");
@@ -203,7 +198,7 @@ boolean keyCheck(int k, boolean b) {
   switch(k) {
 
   case UP:
-    if (!pause)
+    if (!pause) //Stops player from moving during pause
       return duck.up = b;
 
   case DOWN:
@@ -250,7 +245,7 @@ boolean keyCheck(int k, boolean b) {
   }
 }
 
-void mousePressed() {
+void mousePressed() { //Click checks for buttons with fixed values
   //intro page -> game start
   if (gameStart==false&&tutorial == false) {
     if (mouseX>=111 && mouseX<=301 && mouseY >= 379 && mouseY<=465) {

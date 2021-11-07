@@ -1,56 +1,83 @@
-//class for popup window
-PWindow win;
+/*
+ Pwindow : Class for popup window
+ - load .tsv file which contains hanja and it's meaning
+ - set size of pwindow
+ - set the position of showing hanja and it's meaning & show them in pwindow.
+ - Takes index of row, being hanjaGroupIndex
+ - Close only popup window when the game is endd.
+ */
 class PWindow extends PApplet {
+
   PFont f ;
-  PTextHandler poptext = new PTextHandler();
-  int index = 0;
-  
-  PWindow() {
+  PWindowText popText; //Use PWindowText object for displaying text(definition of hanja words)
+  PImage popup_back; // background image for popup window
+
+  Table sprSheet;
+  //String data
+  float sXY;
+
+  float pwX, pwY; //starting position of representing hanja word on popup window
+  float mpwX, mpwY; //starting position of representing syllables and it's meaning on popup window
+  float spacing;
+  float repeatSpacing;
+
+
+  PWindow() { //constructor for pwindow
     super();
     PApplet.runSketch(new String[] {this.getClass().getSimpleName()}, this);
   }
 
-  void settings() {
+  void settings() { //set size for pwindow
     size(640, 640);
   }
 
   void setup() {
+    sprSheet = loadTable(tablePath, "header"); // load "dict_file.tsv" file which stores hanja and it's meaning
+
     background(100);
+
     f = createFont("굴림", 20);
     textFont(f);
     textAlign(LEFT, CENTER);
-    poptext.popHanja(index);
+    popText = new PWindowText();
+
+    //Set the position of showing hanja(pwX, pwY) and it's meaning(mpwX, mpwY)
+    pwX = level.fontSize*2;
+    pwY = level.fontSize;
+    mpwX = level.fontSize*2;
+    mpwY = level.fontSize *12;
   }
 
   void draw() {
-    background(100);
-    
-    text(poptext.word+" ("+poptext.wordMean+")", x, y);
-    for (int j = 0; j<poptext.wordDef.size(); j++) {
-      text(poptext.wordDef.get(j), x, y+30*(j+1));
-      //println(poptext.wordDef.get(j));
+    background(#004221);
+
+    //Checks so that PWindowText
+    if (popText.index > -1) {
+      imageMode(CENTER);
+      image(popup_back, width/2, height/2);
+      textAlign(LEFT);
+
+      //Shows the meaning of the Sino-korean words which the character passed through
+      //and the meaning of the syllabul that make up each syllable.
+      text("\n\n"+popText.expHanja+"    ["+ popText.expHangul+"]\n\n"+ popText.expDef, pwX, pwY);
+      text(popText.subHanja.get(0)+"    " +popText.subHanjaDef.get(0)+"\n\n"
+        +popText.subHanja.get(1)+"    " +popText.subHanjaDef.get(1), mpwX, mpwY);
     }
-    for (int i = 0; i<poptext.subhanja.size(); i++) {
-      text(poptext.subhanja.get(i), x, y+30*(i+poptext.wordDef.size()+2));
-    }
-    
   }
 
-  void isCollision() {
-    //detect which 한자어 does duck collide with and find index number of hanjaArr matching with that 한자어.
-    //if this method is implemented well, delete 'poptext.popHanja(index);' in setup().
-
-    //index = save index number;
-    //poptext.reset();
-    //poptext.popHanja(index);
+  /* Takes index of row, being hanjaGroupIndex */
+  void popIt(int p_index) {
+    popText =  new PWindowText(sprSheet.getRow(p_index), p_index);  //Send TableRow and index of that row for storing in PWindowText object (popText)
   }
 
-  //code for testing whether all hanja definition is saved and represent well.
-  //void mousePressed() {
-  //  if (index<poptext.hanja.hanjaArr.size()-1) {
-  //    index++;
-  //    poptext.reset();
-  //    poptext.popHanja(index);
-  //  }
-  //}
+  /* Re-initializes popText so index is -1, */
+  void reset() {
+    popText = new PWindowText();
+  }
+
+  /* Close only popup window when game is over */
+  void closeWindow() {
+    Frame frame = ( (SmoothCanvas) ((PSurfaceAWT)surface).getNative()).getFrame();
+    frame.dispose();
+  };
 }
